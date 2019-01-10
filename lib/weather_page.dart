@@ -85,8 +85,24 @@ class _WeatherPageState extends State<WeatherPage> {
                     ),
                   ),
                 ),
-           
-            ]
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  height: 130.0,
+                  alignment: Alignment.bottomCenter,
+                  margin: EdgeInsets.all(50.0),
+                  child:  Text('$city',style: TextStyle(color: Colors.white,fontSize: 55.0),),
+                ),
+                
+              ],
+            ),
+            ],
+          ), 
+      ]
       
       
     );
