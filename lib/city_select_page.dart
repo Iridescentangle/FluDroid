@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:lpinyin/lpinyin.dart';
+import 'package:flutter/cupertino.dart';
 
 class CityInfo extends ISuspensionBean {
   String name;
@@ -69,12 +70,12 @@ class _CitySelectPageState extends State<CitySelectPage> {
       });
       _handleList(_cityList);
 
-      _hotCityList.add(CityInfo(name: "北京市", tagIndex: "热门"));
-      _hotCityList.add(CityInfo(name: "广州市", tagIndex: "热门"));
-      _hotCityList.add(CityInfo(name: "成都市", tagIndex: "热门"));
-      _hotCityList.add(CityInfo(name: "深圳市", tagIndex: "热门"));
-      _hotCityList.add(CityInfo(name: "杭州市", tagIndex: "热门"));
-      _hotCityList.add(CityInfo(name: "武汉市", tagIndex: "热门"));
+      _hotCityList.add(CityInfo(name: "北京市", tagIndex: "热门",namePinyin:"bei jing shi"));
+      _hotCityList.add(CityInfo(name: "广州市", tagIndex: "热门",namePinyin:"guang zhou shi"));
+      _hotCityList.add(CityInfo(name: "成都市", tagIndex: "热门",namePinyin:"cheng du shi"));
+      _hotCityList.add(CityInfo(name: "深圳市", tagIndex: "热门",namePinyin:"shen zhen shi"));
+      _hotCityList.add(CityInfo(name: "杭州市", tagIndex: "热门",namePinyin:"hang zhou shi"));
+      _hotCityList.add(CityInfo(name: "武汉市", tagIndex: "热门",namePinyin:"wu han shi"));
 
       setState(() {
         _suspensionTag = _hotCityList[0].getSuspensionTag();
@@ -135,7 +136,7 @@ class _CitySelectPageState extends State<CitySelectPage> {
             title: Text(model.name),
             onTap: () {
               // LogUtil.e("OnItemClick: $model");
-              Navigator.pop(context, model.namePinyin);
+              Navigator.pop(context, model);
             },
           ),
         )
@@ -145,33 +146,37 @@ class _CitySelectPageState extends State<CitySelectPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: new AppBar(
-          title: new Text(widget.title),
-          centerTitle: true,
-        ),
-        body: new Column(
-          children: <Widget>[
-            Container(
-              alignment: Alignment.centerLeft,
-              padding: const EdgeInsets.only(left: 15.0),
-              height: 50.0,
-              child: Text("当前城市: "),
-            ),
-            Expanded(
-                flex: 1,
-                child: QuickSelectListView(
-                  data: _cityList,
-                  // topData: _hotCityList,
-                  topData: null,
-                  itemBuilder: (context, model) => _buildListItem(model),
-                  suspensionWidget: _buildSusWidget(_suspensionTag),
-                  isUseRealIndex: true,
-                  itemHeight: _itemHeight,
-                  suspensionHeight: _suspensionHeight,
-                  onSusTagChanged: _onSusTagChanged,
-                ))
-          ],
-        ));
+    if(_cityList.length > 0){
+      return Scaffold(
+          appBar: new AppBar(
+            title: new Text(widget.title),
+            centerTitle: true,
+          ),
+          body: new Column(
+            children: <Widget>[
+              Container(
+                alignment: Alignment.centerLeft,
+                padding: const EdgeInsets.only(left: 15.0),
+                height: 50.0,
+                child: Text("当前城市: "),
+              ),
+              Expanded(
+                  flex: 1,
+                  child: QuickSelectListView(
+                    data: _cityList,
+                    // topData: _hotCityList,
+                    topData: _hotCityList,
+                    itemBuilder: (context, model) => _buildListItem(model),
+                    suspensionWidget: _buildSusWidget(_suspensionTag),
+                    isUseRealIndex: true,
+                    itemHeight: _itemHeight,
+                    suspensionHeight: _suspensionHeight,
+                    onSusTagChanged: _onSusTagChanged,
+                  ))
+            ],
+          ));
+    }else{
+      return Center(child: CupertinoActivityIndicator(),);
+    }
   }
 }
