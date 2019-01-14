@@ -43,8 +43,8 @@ class _NewsPageState extends State<NewsPage> with SingleTickerProviderStateMixin
     if(_articleList == null || _articleList.length == 0){
       return Center(child:CupertinoActivityIndicator());
     }else{
-      return Container(
-        child: Text('新闻'),
+      return Scaffold(
+        
       );
     }
   }
