@@ -12,7 +12,7 @@ class WeatherPage extends StatefulWidget {
   _WeatherPageState createState() => _WeatherPageState();
 }
 
-class _WeatherPageState extends State<WeatherPage> {
+class _WeatherPageState extends State<WeatherPage>  with SingleTickerProviderStateMixin{
   String city = "bei jing shi";
   String city_name = "北京市";
   var tmp = '';
@@ -27,6 +27,9 @@ class _WeatherPageState extends State<WeatherPage> {
     super.initState();
     loadData(city);
   }
+  @override
+  bool get wantKeepAlive => true;
+ 
   @override
   void dispose() {
     super.dispose();

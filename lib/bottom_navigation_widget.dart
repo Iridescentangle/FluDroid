@@ -1,28 +1,22 @@
 import 'package:flutter/material.dart';
-import 'news_page.dart';
-import 'weather_page.dart';
-import 'tec_page.dart';
+import 'news/news_page.dart';
+import 'weather/weather_page.dart';
+import 'tec/tec_page.dart';
 class BottomNavigationWidget extends StatefulWidget {
   _BottomNavigationWidgetState createState() => _BottomNavigationWidgetState();
 }
 class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
   final _bottom_navigation_color = Colors.lightBlue;
   int current_index = 0;
-  List<Widget> list ;
   @override
     void initState() {
-    // TODO: implement initState
-      list = List<Widget>();
-      list
-      ..add(NewsPage())
-      ..add(WeatherPage())
-      ..add(TecPage());
       super.initState();
     }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Iridescentangle'),),
+      // appBar: AppBar(title: Text('Iridescentangle'),),
+      appBar: AppBar(title: Container(decoration: BoxDecoration(color: Colors.blue),),),
       bottomNavigationBar: BottomNavigationBar(
       currentIndex: current_index,
       items: [
@@ -46,8 +40,14 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
                 });
       },
     ),
-      body: list[current_index],
+      body: IndexedStack(
+        children: <Widget>[
+          NewsPage(),
+          WeatherPage(),
+          TecPage(),
+        ],
+        index: current_index,
+      ),
     );
-    
   }
 }
