@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sky_engine/_http/http.dart';
 import 'package:flutter/cupertino.dart';
+import 'article_page.dart';
 class NewsPage extends StatefulWidget {
   _NewsPageState createState() => _NewsPageState();
 }
@@ -29,23 +30,34 @@ const List<String> _allTypes = <String> [
   'shishang',
 ];
 class _NewsPageState extends State<NewsPage> with SingleTickerProviderStateMixin{
-  
-  String news_key = "7a0230bb21ce9199928f22ff044b8d34";
+  TabController _controller ;
   List _articleList;
+  bool _customIndicator = false;
   @override
     void initState() {
-      // TODO: implement initState
       super.initState();
-      // loadData(0);
+      _controller =  TabController(vsync: this,length: _allNames.length);
     }
   @override
   Widget build(BuildContext context) {
-    if(_articleList == null || _articleList.length == 0){
-      return Center(child:CupertinoActivityIndicator());
-    }else{
       return Scaffold(
-        
+        appBar: AppBar(
+          title: TabBar(
+            controller: _controller,
+            isScrollable: true,
+            tabs: _allNames.map<Tab>((String tag){
+                return Tab(text:tag);
+             }
+            ).toList(),
+          ),
+        ),
+        body: TabBarView(
+          controller: _controller,
+          children: _allTypes.map((String tab){
+              return ArticlePage(type:tab,name:_allNames[_allTypes.indexOf(tab)]);
+            }
+          ).toList(),
+        ),
       );
     }
-  }
 }
