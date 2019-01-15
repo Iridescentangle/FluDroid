@@ -18,8 +18,17 @@ class _DoubanTop250PageState extends State<DoubanTop250Page> {
   void getData(int page) async{
     var url = 'http://api.douban.com/v2/movie/top250?start=${page * 24}&count=${count}';
     await http.get(url).then((http.Response response){
-      var tree = DouBanMovieTree.fromJson(json.decode(response.body));
-      print(tree.toString());
+      DouBanMovieTree tree = DouBanMovieTree.fromJson(json.decode(response.body));
+      if(tree.start == 0){
+        //说明从0开始请求的，是刷新操作或者第一次请求
+        setState(() {
+                  list.addAll(tree.subjects);
+                });
+      }else{
+        setState(() {
+                  list.addAll(tree.subjects);
+                });
+      }
     });
   }
   @override
