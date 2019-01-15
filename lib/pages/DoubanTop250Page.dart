@@ -1,9 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:iridescentangle/model/DouBanMovieTree.dart';
+import 'dart:convert';
 class DoubanTop250Page extends StatefulWidget {
   _DoubanTop250PageState createState() => _DoubanTop250PageState();
 }
 
 class _DoubanTop250PageState extends State<DoubanTop250Page> {
+  int page = 0;
+  int count = 24;
+  List<MovieItem> list = List<MovieItem>();
+  @override
+  void initState() {
+    super.initState();
+    getData(page);
+  }
+  void getData(int page) async{
+    var url = 'http://api.douban.com/v2/movie/top250?start=${page * 24}&count=${count}';
+    await http.get(url).then((http.Response response){
+      var tree = DouBanMovieTree.fromJson(json.decode(response.body));
+      print(tree.toString());
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

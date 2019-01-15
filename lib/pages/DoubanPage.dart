@@ -27,41 +27,48 @@ class _DoubanPageState extends State<DoubanPage> {
                 builder: (context)=>DoubanTop250Page()
               ));
             },
-            child: Container(
-              width: width,
-              child: Stack(
-                alignment: Alignment.center,
-                children: <Widget>[
-                  Image.network('https://i.loli.net/2019/01/15/5c3db1a88ab5c.png'),
-                  Center(
-                    child: ClipRect(  //裁切长方形
-                      child: BackdropFilter(   //背景滤镜器
-                        filter: ImageFilter.blur(sigmaX: 5.0,sigmaY: 5.0), //图片模糊过滤，横向竖向都设置5.0
-                        child: Opacity( //透明控件
-                          opacity: 0.2,
-                          child: Container(// 容器组件
-                            width: width,
-                            decoration: BoxDecoration(color:Colors.grey.shade200), //盒子装饰器，进行装饰，设置颜色为灰色
-                            child: Center(
-                              child: Text(
-                                '豆瓣Top250',
-                                style: Theme.of(context).textTheme.display3, //设置比较酷炫的字体
+            child: Card(
+              margin: EdgeInsets.all(20.0),
+              elevation: 4.0,
+              child: Container(
+                padding: EdgeInsets.all(10.0),
+                width: width,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: <Widget>[
+                    Container(
+                      child: Image.network('https://i.loli.net/2019/01/15/5c3db1a88ab5c.png'),
+                    ),
+                    Center(
+                      child: ClipRect(  //裁切长方形
+                        child: BackdropFilter(   //背景滤镜器
+                          filter: ImageFilter.blur(sigmaX: 5.0,sigmaY: 5.0), //图片模糊过滤，横向竖向都设置5.0
+                          child: Opacity( //透明控件
+                            opacity: 0.6,
+                            child: Container(// 容器组件
+                              width: width,
+                              height: 210.0,
+                              decoration: BoxDecoration(color:Colors.grey.shade200), //盒子装饰器，进行装饰，设置颜色为灰色
+                              child: Center(
+                                child: Text('豆瓣Top250',
+                                  style: TextStyle(color: Colors.grey,fontSize: 50.0,fontWeight: FontWeight.bold), //设置比较酷炫的字体
+                                ),
                               ),
                             ),
                           ),
                         ),
                       ),
                     ),
-                   ),
-                  // Positioned(
-                  //   child: Center(
-                  //     child: Text('豆瓣Top250',style: TextStyle(color: Colors.white,fontSize: 30.0),),
-                  //   ),
-                  // ),
-                ],
+                    
+                    // Positioned(
+                    //   child: Center(
+                    //     child: Text('豆瓣Top250',style: TextStyle(color: Colors.white,fontSize: 30.0),),
+                    //   ),
+                    // ),
+                  ],
+                ),
               ),
             ),
-            
           );
   }
 }
