@@ -33,18 +33,6 @@ class _TecPageState extends State<TecPage> with SingleTickerProviderStateMixin{
         }
       });
     }
-  // void _getMore() async{
-  //   page += 1;
-  //   pageUrl = "http://www.wanandroid.com/article/list/${page}/json";
-  //   http.Response response = await http.get(pageUrl);
-  //   var result = json.decode(response.body);
-  //   if(result['errorCode'] == 0){
-  //     setState(() {
-  //             _body_list.addAll(result['data']['datas']);
-  //           });
-      
-  //   }
-  // }
    /**
    * 上拉加载更多
    */
