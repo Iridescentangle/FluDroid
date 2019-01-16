@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:iridescentangle/model/ArticleInfo.dart';
+import 'ArticleDetailPage.dart';
 class ArticlePage extends StatefulWidget {
   String type;
   String name;
@@ -56,6 +57,12 @@ class _ArticlePageState extends State<ArticlePage> {
   Widget _renderListItem(BuildContext context,int index){
     ArticleInfo item = list[index];
     return ListTile(
+      onTap: (){
+        Navigator.push(context, 
+        MaterialPageRoute(
+          builder: (context)=>ArticleDetailPage(url:item.url,title:item.title)
+        ));
+      },
       title: Card(
         elevation: 3.0,
         child: Container(

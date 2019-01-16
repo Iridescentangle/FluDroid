@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:iridescentangle/model/DouBanMovieTree.dart';
 import 'dart:convert';
 import 'package:flustars/src/screen_util.dart';
+import 'MovieDetailPage.dart';
 class DoubanTop250Page extends StatefulWidget {
   _DoubanTop250PageState createState() => _DoubanTop250PageState();
 }
@@ -24,6 +25,11 @@ class _DoubanTop250PageState extends State<DoubanTop250Page> {
         }
     });
   }
+  @override
+    void dispose() {
+      super.dispose();
+      _scrollController.dispose();
+    }
   
   void getData(int page) async{
     var url = 'http://api.douban.com/v2/movie/top250?start=${page * 24}&count=${count}';
@@ -50,6 +56,12 @@ class _DoubanTop250PageState extends State<DoubanTop250Page> {
     );
   }
   Widget _renderMovieGrid(BuildContext context){
+    int count ;
+    if(list.length == 250){
+      count = list.length +2;
+    }else{
+      count = list.length +3;
+    }
     Widget grid = RefreshIndicator(
           onRefresh: _onRefresh,
           child: GridView.builder(
@@ -61,12 +73,14 @@ class _DoubanTop250PageState extends State<DoubanTop250Page> {
                         crossAxisSpacing: 2.0,
                         childAspectRatio: 0.7
                       ),
-                itemCount: list.length + 3,
+                // itemCount: list.length + 3,
+                itemCount: count,
                 itemBuilder: _rendeMovieItem,
               ),
          );
     return grid;
   }
+  
   Future<Null> _onRefresh() async{
     await Future.delayed(Duration(seconds: 3), () {
       setState(() {
@@ -76,6 +90,7 @@ class _DoubanTop250PageState extends State<DoubanTop250Page> {
       getData(page);
     });
   }
+  
   Widget _rendeMovieItem(BuildContext context,int index){
     MovieItem item;
     if(index <= list.length-1){
@@ -88,31 +103,40 @@ class _DoubanTop250PageState extends State<DoubanTop250Page> {
       }
       return Center(child: Text('加载更多...'),);
     }
-    return Card(
-      margin: EdgeInsets.all(5.0),
-      elevation: 4.0,
-      child: Container(
-        margin: EdgeInsets.fromLTRB(5.0, 10.0, 5.0, 0.0),
-          child:Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              AspectRatio(
-                aspectRatio: 0.75,  //    ratio = 宽 / 高 ,
-                child: Image.network(item.images.medium,fit: BoxFit.scaleDown,),
+    return GridTile(
+      child:GestureDetector(
+        onTap: (){
+          Navigator.push(context, 
+          MaterialPageRoute(
+            builder: (context)=> MovieDetailPage(id:item.id,title:item.title)
+          ));
+        },
+        child:Card(
+          elevation: 4.0,
+          child: Container(
+            margin: EdgeInsets.fromLTRB(5.0, 10.0, 5.0, 0.0),
+              child:Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  AspectRatio(
+                    aspectRatio: 0.75,  //    ratio = 宽 / 高 ,
+                    child: Image.network(item.images.medium,fit: BoxFit.scaleDown,),
+                  ),
+                  Container(
+                    margin: EdgeInsets.fromLTRB(0.0, 2.0, 0.0, 3.0),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(color: Colors.white),
+                    child: Text( item.title,
+                      textAlign:TextAlign.center,
+                      overflow:TextOverflow.ellipsis,
+                      maxLines: 1,
+                      style: TextStyle(fontSize: 12.0,),),
+                  ),
+                ],
               ),
-              Container(
-                margin: EdgeInsets.fromLTRB(0.0, 2.0, 0.0, 3.0),
-                alignment: Alignment.center,
-                decoration: BoxDecoration(color: Colors.white),
-                child: Text( item.title,
-                  textAlign:TextAlign.center,
-                  overflow:TextOverflow.ellipsis,
-                  maxLines: 1,
-                  style: TextStyle(fontSize: 12.0,),),
-              ),
-            ],
           ),
+        ),
       ),
     );
   }
