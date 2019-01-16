@@ -73,7 +73,6 @@ class _DoubanTop250PageState extends State<DoubanTop250Page> {
                         crossAxisSpacing: 2.0,
                         childAspectRatio: 0.7
                       ),
-                // itemCount: list.length + 3,
                 itemCount: count,
                 itemBuilder: _rendeMovieItem,
               ),
