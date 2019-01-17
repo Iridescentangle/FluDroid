@@ -5,6 +5,8 @@ import '../model/DoubanMovieDetail.dart';
 import 'package:flustars/src/screen_util.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import '../news/ArticleDetailPage.dart';
+import 'package:fluwx/src/models/wechat_share_models.dart';
+import 'package:fluwx/fluwx.dart' as fluwx;
 class MovieDetailPage extends StatefulWidget {
   String id;
   String title;
@@ -28,6 +30,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
   @override
   void initState() {
     super.initState();
+    fluwx.register(appId: "wx4cb8c7d62f4d794c");
     getMovieData();
   }
   void getMovieData() async{
@@ -145,6 +148,22 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
             var linkButton1 = _buildButton(link1.link, link1.name);
             var linkButton2 = _buildButton(link2.link, link2.name);
             return ListTile(
+              leading: GestureDetector(
+                onTap: (){
+                 Future<dynamic> result = fluwx.share(WeChatShareTextModel(
+                    text: "text from fluwx",
+                    transaction: "transaction}",//仅在android上有效，下同。
+                    scene: fluwx.WeChatScene.FAVORITE
+                  ));
+                  print(result.then((var map){
+
+                  }));
+
+                },
+                child: Card(
+                  child: Text('分享到微信'),
+                ),
+              ),
               title: Row(
                 children: <Widget>[
                   Expanded(

@@ -19,10 +19,24 @@ dependencies:
   cupertino_icons: ^0.1.2
   flutter_webview_plugin: ^0.3.0+2
   http: ^0.12.0
+  # 工具集
   common_utils: ^1.0.9
+  # 微信分享
+  fluwx : ^0.5.5
+  # 显示未读消息数的控件
+  badge : ^0.0.3
+  # SharedPreference：
+  shared_preferences : ^0.4.3
+  # Toast
+  fluttertoast: ^2.2.6
+  # 工具包
   flustars: ^0.1.9
+  # 轮播图
   flutter_swiper: ^1.0.6
+  # 拼音库
   lpinyin: ^1.0.6
+  # dio网络请求库
+  dio : ^1.0.13
   flukit:
     git:
       url: git://github.com/flutterchina/flukit.git
