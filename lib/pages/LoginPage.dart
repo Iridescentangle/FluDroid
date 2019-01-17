@@ -4,6 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:dio/dio.dart';
 import 'package:iridescentangle/net/HttpService.dart';
 import 'dart:convert';
+import 'package:http/http.dart' as http;
 class LoginPage extends StatefulWidget {
   _LoginPageState createState() => _LoginPageState();
 }
@@ -138,11 +139,17 @@ class _LoginPageState extends State<LoginPage> {
     map['username'] = userName;
     map['password'] = passWord+'';
     print(json.encode(map));
-    await dio.post(HttpService.WANANDROID_LOGIN,data:map).then(
-      (Response response) async{
-          print(response);
+    // await dio.post(HttpService.WANANDROID_LOGIN,data:map).then(
+    //   (Response response) async{
+    //       print(response);
+    //   }
+    // );
+    await http.post(HttpService.WANANDROID_LOGIN,body: map).then(
+      (http.Response response){
+          print(response.body);
       }
     );
+    
 
   }
 
