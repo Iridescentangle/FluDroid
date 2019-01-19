@@ -18,6 +18,8 @@ dependencies:
   json_annotation: ^0.2.3
   cupertino_icons: ^0.1.2
   flutter_webview_plugin: ^0.3.0+2
+  # webview 据说更好用一些
+  webview_flutter : ^0.2.0
   http: ^0.12.0
   # 工具集
   common_utils: ^1.0.9

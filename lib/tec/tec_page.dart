@@ -5,7 +5,7 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:convert';
 import 'dart:ui';
-import 'tec_web_page.dart';
+import 'tec_web_page2.dart';
 
 class TecPage extends StatefulWidget {
   _TecPageState createState() => _TecPageState();
@@ -143,7 +143,7 @@ class _TecPageState extends State<TecPage> with SingleTickerProviderStateMixin{
       onTap:(){
         Navigator.push(
           context,MaterialPageRoute(
-            builder: (context) => TecWebDetailPage(item['link'],item['title'])
+            builder: (context) => TecWebDetailPage2(item['link'],item['title'])
           )
         );
       },

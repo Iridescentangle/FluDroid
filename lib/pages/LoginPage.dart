@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:iridescentangle/net/HttpService.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:iridescentangle/utils/DioUtil.dart';
 class LoginPage extends StatefulWidget {
   _LoginPageState createState() => _LoginPageState();
 }
@@ -135,22 +136,21 @@ class _LoginPageState extends State<LoginPage> {
       Fluttertoast.showToast(msg:'请检查密码!');
       return;
     }
-    Map<String,Object> map = Map();
+    Map<String,String> map = Map();
     map['username'] = userName;
-    map['password'] = passWord+'';
-    print(json.encode(map));
+    map['password'] = passWord;
+    DioUtil.post("user/login",(Response response){
+      print(response);
+    },params:map,errorCallBack: (String errorMsg){
+      print(errorMsg);
+    }
+    );
+    // FormData formData = new FormData.from(map);
     // await dio.post(HttpService.WANANDROID_LOGIN,data:map).then(
     //   (Response response) async{
     //       print(response);
     //   }
     // );
-    await http.post(HttpService.WANANDROID_LOGIN,body: map).then(
-      (http.Response response){
-          print(response.body);
-      }
-    );
-    
-
   }
 
 }
