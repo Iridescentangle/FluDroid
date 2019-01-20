@@ -1,6 +1,6 @@
 # iridescentangle
 
-A new Flutter project.
+这是我学习Flutter过程中的一个小Demo
 
 ## Getting Started
 
