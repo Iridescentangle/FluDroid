@@ -2,18 +2,37 @@ import 'package:flutter/material.dart';
 import 'SearchPage.dart';
 import 'package:flustars/src/screen_util.dart';
 import 'LoginPage.dart';
+import 'dart:convert';
+import 'package:iridescentangle/utils/UserUtil.dart';
+import 'package:iridescentangle/utils/ToastUtil.dart';
+import 'package:iridescentangle/utils/DialogUtil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 class WanAndroidPage extends StatefulWidget {
   _WanAndroidPageState createState() => _WanAndroidPageState();
 }
 
 class _WanAndroidPageState extends State<WanAndroidPage> {
   double width;
+  String username = "";
+  String avatarUrl = "";
+  List<int> favorite_list = List();
   @override
     void initState() {
       // TODO: implement initState
       super.initState();
-      
+      initUserInfo();
     }
+  void initUserInfo() async{
+    UserUtil.localLogOut();
+    await UserUtil.getUserName().then(
+      (name){
+        print('姓名:$name');
+        setState(() {
+                  username = name;
+                });
+      }
+    );
+  }
   @override
   Widget build(BuildContext context) {
     width = ScreenUtil.getScreenW(context);
@@ -49,6 +68,10 @@ class _WanAndroidPageState extends State<WanAndroidPage> {
     );
   }
   Widget _headPart(){
+    var avatar;
+    if(avatarUrl == null || avatarUrl.length == 0){
+      avatarUrl = "https://avatars1.githubusercontent.com/u/33859295?s=460&v=4";
+    }
     return Card(
       margin: EdgeInsets.all(10.0),
       elevation: 4.0,
@@ -59,13 +82,13 @@ class _WanAndroidPageState extends State<WanAndroidPage> {
             width: width / 5,
             height: width / 5,
             child: CircleAvatar(
-                backgroundImage: NetworkImage('https://avatar.csdn.net/F/B/8/3_qq_32319999.jpg'),
+                backgroundImage: NetworkImage(avatarUrl),
               ),
             ),
           Container(
             margin: EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 20.0),
             alignment: Alignment.center,
-            child: Text('Iridescentangle',style: TextStyle(fontSize: 20.0,)),
+            child: Text('${username}',style: TextStyle(fontSize: 20.0,)),
           ),
         ],
       ),
@@ -76,18 +99,33 @@ class _WanAndroidPageState extends State<WanAndroidPage> {
       Icon(Icons.person),
       Text('登录/注册'),
       (){
-        Navigator.of(context).push(
+        _navigatorToLogin(context);
+       
+      }
+      );
+  }
+  void _navigatorToLogin(BuildContext context) async{
+    final data = await  Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context)=> LoginPage()
           ),
         );
-      }
-      );
+    if(data != null && data['errorCode']==0){
+      print(data['data']['password']);
+      setState(() {
+              initUserInfo();
+              if(data['data']['icon'].length != 0){
+                avatarUrl = data['data']['icon'];
+              }
+              favorite_list.clear();
+              favorite_list.addAll(List.from(json.decode(data['data']['collectIds'].toString())));
+            });
+    }
   }
   Widget _myFavorite(){
     return _buildListTile(
       Icon(Icons.favorite_border), 
-      Text('我的收藏'), 
+      Text('我的收藏(${favorite_list.length}条)'), 
       (){
 
       });
@@ -108,14 +146,36 @@ class _WanAndroidPageState extends State<WanAndroidPage> {
 
       });
   }
-  Widget _logout(){
+  Widget _logout() {
     return _buildListTile(
       Icon(Icons.exit_to_app), 
       Text('退出登录'), 
-      (){
-
+      () async{
+        UserUtil.isLogin().then(
+          (isLogin){
+            if(isLogin){
+              DialogUtil.showAlertDialog(context, "退出登录", "您是否确认退出登录", "确定", (){
+                setState(() {
+                                  username = "蠢猪";
+                                });
+                // UserUtil.localLogOut().then(
+                //   (suc){
+                //       initUserInfo();
+                //   }
+                // );
+              }, "取消", (){
+              });
+              
+            }else{
+              ToastUtil.showToast("您尚未登录!");
+            }
+          }
+        );
+        
+        
       });
   }
+
   Widget _buildListTile(Icon icon,Text text,var onTap){
     return Card(
       margin: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),

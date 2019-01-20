@@ -15,14 +15,5 @@ class TecWebDetailPage2 extends StatelessWidget {
         javascriptMode: JavascriptMode.unrestricted,
       ),
     );
-    // return new WebviewScaffold(
-    //   withJavascript: true,
-    //   url: url,
-    //   scrollBar:true,
-    //   withLocalUrl: true,
-    //   appBar: new AppBar(
-    //     title: Text(title),
-    //   ),
-    // );
   }
 }

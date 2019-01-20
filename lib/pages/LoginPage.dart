@@ -6,6 +6,8 @@ import 'package:iridescentangle/net/HttpService.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:iridescentangle/utils/DioUtil.dart';
+import 'package:iridescentangle/utils/ToastUtil.dart';
+import 'package:iridescentangle/utils/UserUtil.dart';
 class LoginPage extends StatefulWidget {
   _LoginPageState createState() => _LoginPageState();
 }
@@ -16,7 +18,6 @@ class _LoginPageState extends State<LoginPage> {
   Dio dio;
   @override
     void initState() {
-      // TODO: implement initState
       super.initState();
       dio = Dio();
     }
@@ -53,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget _nameInput(){
     var nameInput = TextField(
       controller: username,
-      autofocus: false,
+      autofocus: true,
       cursorColor: Colors.lightBlue,
       decoration: InputDecoration(
         labelText: '请输入用户名',
@@ -72,7 +73,6 @@ class _LoginPageState extends State<LoginPage> {
      var nameInput = TextField(
       controller: pwd,
       obscureText: true,
-      autofocus: true,
       cursorColor: Colors.lightBlue,
       decoration: InputDecoration(
         labelText: '请输入密码',
@@ -140,17 +140,18 @@ class _LoginPageState extends State<LoginPage> {
     map['username'] = userName;
     map['password'] = passWord;
     DioUtil.post("user/login",(Response response){
-      print(response);
+      var data = response.data;
+      print(data['errorCode']);
+      if(data['errorCode'] == 0){
+        print(data);
+        //说明登录成功了返回了用户数据
+        UserUtil.saveInfo(data['data']['username']);
+        Navigator.pop(context,data);
+      }
     },params:map,errorCallBack: (String errorMsg){
-      print(errorMsg);
+      ToastUtil.showToast(errorMsg);
     }
     );
-    // FormData formData = new FormData.from(map);
-    // await dio.post(HttpService.WANANDROID_LOGIN,data:map).then(
-    //   (Response response) async{
-    //       print(response);
-    //   }
-    // );
   }
 
 }

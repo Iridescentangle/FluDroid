@@ -52,7 +52,7 @@ class ToolPage extends StatelessWidget {
               width: width-20,
               height: 100.0,
               child: Center(
-                child: Text('WanAndroid登录注册',style: TextStyle(color: Colors.black87,fontSize: 20.0),),),
+                child: Text('WanAndroid',style: TextStyle(color: Colors.black87,fontSize: 20.0),),),
             ),
           ),
         );

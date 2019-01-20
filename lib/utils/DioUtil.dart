@@ -3,7 +3,6 @@ import 'package:iridescentangle/net/HttpService.dart';
 import 'dart:io';
 
 class DioUtil {
-  static String Base_URL = HttpService.WANANDROID_BASE_URL;
   static const String GET = 'GET';
   static const String POST = 'POST';
 
@@ -33,16 +32,17 @@ class DioUtil {
         // 15s 超时时间
         connectTimeout:15000,
         receiveTimeout:15000,
-        baseUrl: Base_URL,
+        baseUrl: HttpService.WANANDROID_BASE_URL,
       // dio库中默认将请求数据序列化为json，此处可根据后台情况自行修改
-        contentType: new ContentType('application', 'x-www-form-urlencoded',charset: 'utf-8')
+        contentType: new ContentType('application', 'form-urlencoded',charset: 'utf-8')
       );
       Dio dio = new Dio(options);
 
       if (method == GET) {
         response = await dio.get(url,data: params);
       } else {
-        response = await dio.post(url,data: params);
+        FormData formData = FormData.from(params);
+        response = await dio.post(url,data: formData);
       }
       statusCode = response.statusCode;
       //处理错误部分
@@ -66,4 +66,5 @@ class DioUtil {
       errorCallback(errorMsg);
     }
   }
+  
 }
