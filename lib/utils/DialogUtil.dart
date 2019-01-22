@@ -8,11 +8,11 @@ class DialogUtil{
             content: new Text(content),
             actions:<Widget>[
               new FlatButton(child:new Text(cancelText), onPressed: (){
-                  onCancel;
+                  onCancel();
                 Navigator.of(context).pop();
               },),
               new FlatButton(child:new Text(confirmText), onPressed: (){
-                  onConfirm;
+                  onConfirm();
                   Navigator.of(context).pop();
               },)
             ]

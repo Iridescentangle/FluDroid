@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:iridescentangle/net/HttpService.dart';
 import 'dart:io';
+import 'package:cookie_jar/cookie_jar.dart';
 
 class DioUtil {
   static const String GET = 'GET';
@@ -37,6 +38,9 @@ class DioUtil {
         contentType: new ContentType('application', 'form-urlencoded',charset: 'utf-8')
       );
       Dio dio = new Dio(options);
+      // dio.cookieJar=new PersistCookieJar("./cookies");
+      var cj = new CookieJar();
+      dio.cookieJar = cj;
 
       if (method == GET) {
         response = await dio.get(url,data: params);
@@ -54,7 +58,7 @@ class DioUtil {
 
       if (callBack != null) {
         callBack(response);
-        print(response.statusCode);
+        // print(response.statusCode);
       }
     } catch (exception) {
       _handError(errorCallBack, exception.toString());

@@ -2,6 +2,8 @@ import 'package:http/http.dart' as http;
 import 'package:iridescentangle/net/HttpService.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
+import 'dart:io';
+import 'package:dio/dio.dart';
 class HttpUtil {
     static const String GET = "get";
     static const String POST = "post";
@@ -33,6 +35,14 @@ class HttpUtil {
     await startRequest(url, callback, method: GET, headers: headers,
         errorCallback: errorCallback);
   }
+  static void post(String url, Function callback, {Map<String, String> params,
+    Map<String, String> headers, Function errorCallback}) async {
+    if (!url.startsWith("http")) {
+      url = HttpService.WANANDROID_BASE_URL + url;
+    }
+    await startRequest(url, callback, method: POST,
+        headers: headers, params: params, errorCallback: errorCallback);
+  }
   //开始网络请求
   static Future startRequest(String url, Function callback, {String method,
     Map<String, String> headers, Map<String, String> params,
@@ -51,7 +61,8 @@ class HttpUtil {
       }
       http.Response res;
       if (POST == method) {
-        res = await http.post(url, headers: headerMap, body: paramMap);
+        FormData formData = FormData.from(paramMap);
+        res = await http.post(url, headers: headerMap, body: formData);
       } else {
         res = await http.get(url, headers: headerMap);
       }
@@ -71,6 +82,7 @@ class HttpUtil {
       data = map['data'];
 
       if(url.contains("login")){
+        print('==================${res.headers['set-cookie']}');
         SharedPreferences sp = await SharedPreferences.getInstance();
         sp.setString("cookie", res.headers['set-cookie']);
       }

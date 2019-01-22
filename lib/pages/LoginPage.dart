@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flustars/src/screen_util.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:dio/dio.dart';
-import 'package:iridescentangle/net/HttpService.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:iridescentangle/utils/DioUtil.dart';
 import 'package:iridescentangle/utils/ToastUtil.dart';
 import 'package:iridescentangle/utils/UserUtil.dart';
+import 'package:iridescentangle/utils/HttpUtil.dart';
 class LoginPage extends StatefulWidget {
   _LoginPageState createState() => _LoginPageState();
 }
@@ -139,16 +137,18 @@ class _LoginPageState extends State<LoginPage> {
     Map<String,String> map = Map();
     map['username'] = userName;
     map['password'] = passWord;
-    DioUtil.post("user/login",(Response response){
-      var data = response.data;
-      print(data['errorCode']);
-      if(data['errorCode'] == 0){
-        print(data);
+    HttpUtil.post("user/login",(var data){
+      // var data = response.data;
+      // print(data);
+      // if(data['errorCode'] == 0){
+      if(data != null){
+        // print(data);
         //说明登录成功了返回了用户数据
-        UserUtil.saveInfo(data['data']['username']);
+        // UserUtil.saveInfo(data['data']['username']);
+        UserUtil.saveInfo(data['username']);
         Navigator.pop(context,data);
       }
-    },params:map,errorCallBack: (String errorMsg){
+    },params:map,errorCallback: (String errorMsg){
       ToastUtil.showToast(errorMsg);
     }
     );

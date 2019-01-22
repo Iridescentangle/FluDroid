@@ -6,7 +6,13 @@ import 'dart:convert';
 import 'package:iridescentangle/utils/UserUtil.dart';
 import 'package:iridescentangle/utils/ToastUtil.dart';
 import 'package:iridescentangle/utils/DialogUtil.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:iridescentangle/net/HttpService.dart';
+import 'package:dio/dio.dart';
+import 'package:iridescentangle/utils/DioUtil.dart';
+import 'package:iridescentangle/page_routes/FadePageRoute.dart';
+import 'package:iridescentangle/utils/Constants.dart';
+import 'MoreInfoPage.dart';
+import 'MyFavoritePage.dart';
 class WanAndroidPage extends StatefulWidget {
   _WanAndroidPageState createState() => _WanAndroidPageState();
 }
@@ -15,7 +21,6 @@ class _WanAndroidPageState extends State<WanAndroidPage> {
   double width;
   String username = "";
   String avatarUrl = "";
-  List<int> favorite_list = List();
   @override
     void initState() {
       // TODO: implement initState
@@ -23,13 +28,15 @@ class _WanAndroidPageState extends State<WanAndroidPage> {
       initUserInfo();
     }
   void initUserInfo() async{
-    UserUtil.localLogOut();
     await UserUtil.getUserName().then(
       (name){
-        print('姓名:$name');
         setState(() {
-                  username = name;
-                });
+            if(name != null){
+                    username = name;
+            }else{
+              username = '未登录状态';
+            }
+        });
       }
     );
   }
@@ -99,7 +106,16 @@ class _WanAndroidPageState extends State<WanAndroidPage> {
       Icon(Icons.person),
       Text('登录/注册'),
       (){
-        _navigatorToLogin(context);
+        UserUtil.isLogin().then(
+          (isLogin){
+            if(isLogin){
+              ToastUtil.showToast('您已经登录!');
+            }else{
+               _navigatorToLogin(context);
+            }
+          }
+        );
+       
        
       }
       );
@@ -110,24 +126,42 @@ class _WanAndroidPageState extends State<WanAndroidPage> {
             builder: (context)=> LoginPage()
           ),
         );
-    if(data != null && data['errorCode']==0){
-      print(data['data']['password']);
+    // if(data != null && data['errorCode']==0){
+    //   setState(() {
+    //           username = data['data']['username'];
+    //           if(data['data']['icon'].length != 0){
+    //             avatarUrl = data['data']['icon'];
+    //           }
+    //           favorite_list.clear();
+    //           favorite_list.addAll(List.from(json.decode(data['data']['collectIds'].toString())));
+    //         });
+    // }
+     if(data != null){
       setState(() {
-              initUserInfo();
-              if(data['data']['icon'].length != 0){
-                avatarUrl = data['data']['icon'];
+              username = data['username'];
+              if(data['icon'].length != 0){
+                avatarUrl = data['icon'];
               }
-              favorite_list.clear();
-              favorite_list.addAll(List.from(json.decode(data['data']['collectIds'].toString())));
             });
     }
   }
   Widget _myFavorite(){
     return _buildListTile(
       Icon(Icons.favorite_border), 
-      Text('我的收藏(${favorite_list.length}条)'), 
+      Text('我的收藏'), 
       (){
-
+        UserUtil.isLogin().then(
+          (isLogin){
+            if(isLogin){
+              Navigator.push(context, 
+                  FadePageRoute(MyFavoritePage())
+                  );
+            }else{
+              ToastUtil.showToast('请先登录!');
+            }
+          }
+        );
+        
       });
   }
   Widget _settings(){
@@ -135,7 +169,7 @@ class _WanAndroidPageState extends State<WanAndroidPage> {
       Icon(Icons.settings), 
       Text('设置中心'), 
       (){
-
+        ToastUtil.showToast('开发中,敬请期待!');
       });
   }
   Widget _about(){
@@ -143,7 +177,9 @@ class _WanAndroidPageState extends State<WanAndroidPage> {
       Icon(Icons.info), 
       Text('更多信息'), 
       (){
-
+        Navigator.push(context, 
+        FadePageRoute(MoreInfoPage())
+        );
       });
   }
   Widget _logout() {
@@ -155,17 +191,24 @@ class _WanAndroidPageState extends State<WanAndroidPage> {
           (isLogin){
             if(isLogin){
               DialogUtil.showAlertDialog(context, "退出登录", "您是否确认退出登录", "确定", (){
-                setState(() {
-                                  username = "蠢猪";
-                                });
-                // UserUtil.localLogOut().then(
-                //   (suc){
-                //       initUserInfo();
-                //   }
-                // );
+                 DioUtil.get(HttpService.WANANDROID_LOGOUT, 
+                (Response response){
+                  if(response.data[Constants.ERROR_CODE] == 0){
+                    UserUtil.localLogOut();
+                    setState(() {
+                      username = '未登录状态';
+                    });
+                  }else{
+                    ToastUtil.showToast('请再试一次!');
+                  }
+                 },errorCallBack: (String msg){
+                   ToastUtil.showToast('网络错误,请再试一次!');
+                 }
+                );
+                
+                  
               }, "取消", (){
               });
-              
             }else{
               ToastUtil.showToast("您尚未登录!");
             }
@@ -176,7 +219,7 @@ class _WanAndroidPageState extends State<WanAndroidPage> {
       });
   }
 
-  Widget _buildListTile(Icon icon,Text text,var onTap){
+  Widget _buildListTile(Icon icon,Text text,Function onTap){
     return Card(
       margin: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
       elevation: 3.0,
