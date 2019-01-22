@@ -39,6 +39,8 @@ dependencies:
   lpinyin: ^1.0.6
   # dio网络请求库
   dio : ^1.0.13
+  # 超链接
+  url_launcher: ^3.0.2
   flukit:
     git:
       url: git://github.com/flutterchina/flukit.git
