@@ -131,12 +131,17 @@ class _LoginPageState extends State<LoginPage> {
       child: registerButton,
     );
   }
-  void _navigateToRegister(){
+  void _navigateToRegister() async{
     String name = username.text;
     if(name != null){
-      Navigator.push(context, 
+      var result = await Navigator.push(context, 
       FadePageRoute(RegisterPage(name:name))
       );
+      print(result);
+      if(result == 1){
+        //说明是自动登录成功了
+        Navigator.pop(context,1);
+      }
     }
   }
   void _toLogin() async{

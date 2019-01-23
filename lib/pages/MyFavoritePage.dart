@@ -3,31 +3,59 @@ import 'package:iridescentangle/utils/HttpUtil.dart';
 import 'package:iridescentangle/utils/Constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:iridescentangle/net/HttpService.dart';
+import 'package:iridescentangle/tec/tec_web_page.dart';
+import 'package:iridescentangle/page_routes/FadePageRoute.dart';
+import 'package:iridescentangle/utils/ToastUtil.dart';
 class MyFavoritePage extends StatefulWidget {
   _MyFavoritePageState createState() => _MyFavoritePageState();
 }
 
 class _MyFavoritePageState extends State<MyFavoritePage> {
+  ScrollController _scrollController = ScrollController();
   List _favorite_list = List();
   bool hasData = false;
+  int page = 0;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getData();
+    _scrollController..addListener((){
+       if (_scrollController.position.pixels ==
+            _scrollController.position.maxScrollExtent) {
+          _getMore();
+        }
+    });
   }
-  void getData(){
-    HttpUtil.get('http://www.wanandroid.com/lg/collect/list/0/json', 
+  void _getMore() async{
+    page = page +1;
+    HttpUtil.get(HttpService.WANANDROID_FAVORITE.replaceFirst('~', '$page'), 
+    (data){
+      if(data != null){
+        if(data[Constants.DATAS].length != 0){
+          setState(() {
+            hasData = true;
+            _favorite_list.addAll(data[Constants.DATAS]); 
+          });
+        }
+      }
+    },
+    errorCallback: (msg){
+      ToastUtil.showToast(msg);
+    });
+  }
+  void getData() async{
+    HttpUtil.get(HttpService.WANANDROID_FAVORITE.replaceFirst('~', '$page'), 
     (data){
       if(data != null){
         if(data[Constants.DATAS].length == 0){
           setState(() {
                       hasData = false;
                     });
-          
         }else{
           setState(() {
             hasData = true;
+            _favorite_list.clear();
             _favorite_list.addAll(data[Constants.DATAS]); 
           });
         }
@@ -38,6 +66,12 @@ class _MyFavoritePageState extends State<MyFavoritePage> {
     }
     );
   }
+  @override
+    void dispose() {
+      // TODO: implement dispose
+      _scrollController.dispose();
+      super.dispose();
+    }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,6 +87,7 @@ class _MyFavoritePageState extends State<MyFavoritePage> {
       return RefreshIndicator(
         onRefresh: _onRefresh,
         child: GridView.builder(
+          controller: _scrollController,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
                           mainAxisSpacing: 2.0,
@@ -68,13 +103,15 @@ class _MyFavoritePageState extends State<MyFavoritePage> {
     }
   }
   Future<void> _onRefresh() async{
-
+    page = 0;
+    getData();
   }
   Widget _buildGridItem(BuildContext context,int index){
     var item = _favorite_list[index];
     return GestureDetector(
       onTap: (){
-
+        Navigator.push(context, 
+        FadePageRoute(TecWebDetailPage(item['link'], item['title'],id:item['id'])));
       },
       child: GridTile(
         child: Card(
@@ -139,7 +176,7 @@ class _MyFavoritePageState extends State<MyFavoritePage> {
       child:Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          Padding(padding:EdgeInsets.all(5.0),child:Text(title,style: TextStyle(color: Colors.white,fontSize: 17.0,fontWeight: FontWeight.bold),),),
+          Padding(padding:EdgeInsets.all(5.0),child:Text(title,style: TextStyle(color: Colors.white,fontSize: 15.0,fontWeight: FontWeight.bold),maxLines: 2,overflow: TextOverflow.ellipsis,),),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[

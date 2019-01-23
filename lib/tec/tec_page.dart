@@ -142,7 +142,7 @@ class _TecPageState extends State<TecPage> with SingleTickerProviderStateMixin{
       onTap:(){
         Navigator.push(
           context,MaterialPageRoute(
-            builder: (context) => TecWebDetailPage(item['link'],item['title'])
+            builder: (context) => TecWebDetailPage(item['link'],item['title'],id:item['id'])
           )
         );
       },

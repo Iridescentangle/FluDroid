@@ -137,6 +137,11 @@ class _WanAndroidPageState extends State<WanAndroidPage> {
     //           favorite_list.addAll(List.from(json.decode(data['data']['collectIds'].toString())));
     //         });
     // }
+    if(data == 1){
+      //说明是注册成功了自动登录的界面
+      initUserInfo();
+      return;
+    }
      if(data != null){
       setState(() {
               username = data['username'];

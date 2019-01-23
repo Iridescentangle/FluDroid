@@ -23,6 +23,7 @@ class UserUtil{
   //判断当前是否有用户的登录信息
   static Future<bool> isLogin() async{
     SharedPreferences sp = await SharedPreferences.getInstance();
-    return sp.getBool(IS_LOGIN);
+    bool isLogin = sp.getBool(IS_LOGIN);
+    return isLogin != null && isLogin;
   }
 }
