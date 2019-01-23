@@ -27,8 +27,9 @@ class _DoubanTop250PageState extends State<DoubanTop250Page> {
   }
   @override
     void dispose() {
-      super.dispose();
       _scrollController.dispose();
+      super.dispose();
+      
     }
   
   void getData(int page) async{

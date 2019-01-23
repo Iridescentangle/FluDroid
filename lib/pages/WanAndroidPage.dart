@@ -13,6 +13,7 @@ import 'package:iridescentangle/page_routes/FadePageRoute.dart';
 import 'package:iridescentangle/utils/Constants.dart';
 import 'MoreInfoPage.dart';
 import 'MyFavoritePage.dart';
+import 'PickImgPage.dart';
 class WanAndroidPage extends StatefulWidget {
   _WanAndroidPageState createState() => _WanAndroidPageState();
 }
@@ -169,7 +170,11 @@ class _WanAndroidPageState extends State<WanAndroidPage> {
       Icon(Icons.settings), 
       Text('设置中心'), 
       (){
-        ToastUtil.showToast('开发中,敬请期待!');
+        // ToastUtil.showToast('开发中,敬请期待!');
+        Navigator.push(context, 
+        MaterialPageRoute(
+          builder: (context)=>PickImgPage()
+        ));
       });
   }
   Widget _about(){

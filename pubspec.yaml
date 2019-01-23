@@ -40,7 +40,9 @@ dependencies:
   # dio网络请求库
   dio : ^1.0.13
   # 超链接
-  url_launcher: ^3.0.2
+  url_launcher : ^ 4.0.3
+  # 调用图库和相机
+  image_picker : ^ 0.4.12+1
   flukit:
     git:
       url: git://github.com/flutterchina/flukit.git

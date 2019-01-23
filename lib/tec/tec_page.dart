@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
-import 'dart:io';
 import 'dart:convert';
 import 'dart:ui';
-import 'tec_web_page2.dart';
+import 'tec_web_page.dart';
 
 class TecPage extends StatefulWidget {
   _TecPageState createState() => _TecPageState();
@@ -70,8 +69,8 @@ class _TecPageState extends State<TecPage> with SingleTickerProviderStateMixin{
   }
   @override
     void dispose() {
-      super.dispose();
       _scrollController.dispose();
+      super.dispose();
     }
   @override
   Widget build(BuildContext context) {
@@ -143,7 +142,7 @@ class _TecPageState extends State<TecPage> with SingleTickerProviderStateMixin{
       onTap:(){
         Navigator.push(
           context,MaterialPageRoute(
-            builder: (context) => TecWebDetailPage2(item['link'],item['title'])
+            builder: (context) => TecWebDetailPage(item['link'],item['title'])
           )
         );
       },

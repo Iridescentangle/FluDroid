@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:dio/dio.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:iridescentangle/utils/ToastUtil.dart';
 import 'package:iridescentangle/utils/UserUtil.dart';
 import 'package:iridescentangle/utils/HttpUtil.dart';
+import 'package:iridescentangle/page_routes/FadePageRoute.dart';
+import 'RegisterPage.dart';
 class LoginPage extends StatefulWidget {
   _LoginPageState createState() => _LoginPageState();
 }
@@ -18,6 +18,14 @@ class _LoginPageState extends State<LoginPage> {
     void initState() {
       super.initState();
       dio = Dio();
+    }
+  @override
+    void dispose() {
+      // TODO: implement dispose
+      username.dispose();
+      pwd.dispose();
+      super.dispose();
+      
     }
   @override
   Widget build(BuildContext context) {
@@ -108,7 +116,7 @@ class _LoginPageState extends State<LoginPage> {
     var width = MediaQuery.of(context).size.width;
     var registerButton = RaisedButton(
         onPressed: (){
-          
+          _navigateToRegister();
         },
         textColor: Colors.white,
         color: Colors.blue,
@@ -122,6 +130,14 @@ class _LoginPageState extends State<LoginPage> {
       height: width / 8,
       child: registerButton,
     );
+  }
+  void _navigateToRegister(){
+    String name = username.text;
+    if(name != null){
+      Navigator.push(context, 
+      FadePageRoute(RegisterPage(name:name))
+      );
+    }
   }
   void _toLogin() async{
     String userName = username.text;
@@ -139,7 +155,7 @@ class _LoginPageState extends State<LoginPage> {
     map['password'] = passWord;
     HttpUtil.post("user/login",(var data){
       // var data = response.data;
-      // print(data);
+      print(data);
       // if(data['errorCode'] == 0){
       if(data != null){
         // print(data);
