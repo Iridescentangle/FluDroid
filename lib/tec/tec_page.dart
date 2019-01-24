@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:http/http.dart' as http;
 import 'dart:async';
-import 'dart:convert';
 import 'dart:ui';
 import 'tec_web_page.dart';
-
+import 'package:iridescentangle/utils/HttpUtil.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
+// import 'package:flukit/src/swiper.dart';
+import 'package:iridescentangle/net/HttpService.dart';
 class TecPage extends StatefulWidget {
   _TecPageState createState() => _TecPageState();
 }
@@ -14,6 +15,8 @@ class _TecPageState extends State<TecPage> with SingleTickerProviderStateMixin{
   @override
   bool get wantKeepAlive => true;
   List<Object> _body_list;
+  List _swiper_data_list = List();
+  // SwiperControl _swiperControl = SwiperControl();
   int page = 0;
   var topUrl = "http://www.wanandroid.com/article/top/json";
   var pageUrl ;
@@ -42,30 +45,33 @@ class _TecPageState extends State<TecPage> with SingleTickerProviderStateMixin{
       });
       page += 1;
       pageUrl = "http://www.wanandroid.com/article/list/${page}/json";
-      http.Response response = await http.get(pageUrl);
-      var result = json.decode(response.body);
-      await Future.delayed(Duration(seconds: 1), () {
-        setState(() {
-          _body_list.addAll(result['data']['datas']);
-          isLoading = false;
+      HttpUtil.get(pageUrl, (data){
+         Future.delayed(Duration(seconds: 1), () {
+            setState(() {
+              _body_list.addAll(data['datas']);
+              isLoading = false;
+            });
         });
       });
+      
     }
   }
   void loadData(int page) async{
-    http.Response response1 = await http.get(topUrl);
-    var result1 = await json.decode(response1.body);
-    http.Response response2 = await http.get(pageUrl);
-    var result2 = await json.decode(response2.body);
-    if(result1['errorCode'] == 0){
-      _body_list.addAll(result1['data']);
-    }
-    if(result2['errorCode'] == 0){
+    HttpUtil.get(topUrl, (data){
       setState(() {
-               _body_list.addAll(result2['data']['datas']);
+              _body_list.addAll(data['data']);
             });
-     
-    }
+    });
+    HttpUtil.get(pageUrl, (data){
+      setState(() {
+              _body_list.addAll(data['datas']);
+            });
+    });
+    HttpUtil.get(HttpService.WANANDROID_BANNER, (data){
+      print(data);
+      _swiper_data_list.addAll(data);
+    });
+
   }
   @override
     void dispose() {
@@ -79,11 +85,11 @@ class _TecPageState extends State<TecPage> with SingleTickerProviderStateMixin{
     }else{
       return RefreshIndicator(
         onRefresh: _onRefresh,
-        child: ListView.builder(
+        child:ListView.builder(
             itemBuilder: _renderTile,
-            itemCount: _body_list.length+1,
+            itemCount: _body_list.length+2,
             controller: _scrollController,
-          ),
+           ),
       );
     }
   }
@@ -100,10 +106,41 @@ class _TecPageState extends State<TecPage> with SingleTickerProviderStateMixin{
     });
   }
   Widget _renderTile(BuildContext context,int index){
+    if(index == 0){
+      return Container();
+      // return Swiper(
+      //        pagination: new SwiperPagination(
+      //           builder: DotSwiperPaginationBuilder(
+      //         color: Colors.black54,
+      //         activeColor: Colors.white,
+      //       )),
+      //       itemBuilder: _swiperBuilder,
+      //       itemCount: _swiper_data_list.length,
+      //       // control: _swiperControl,
+      //       scrollDirection: Axis.horizontal,
+      //       autoplay: true,
+      //       onTap: (index){
+      //         print('点击了第$index个');
+      //       }
+      //     );
+      // return Swiper(
+      //       itemBuilder: _swiperBuilder,
+      //       itemCount: 3,
+      //       pagination: new SwiperPagination(
+      //           builder: DotSwiperPaginationBuilder(
+      //         color: Colors.black54,
+      //         activeColor: Colors.white,
+      //       )),
+      //       control: new SwiperControl(),
+      //       scrollDirection: Axis.horizontal,
+      //       autoplay: true,
+      //       onTap: (index) => print('点击了第$index个'),
+      //     );
+    }
     if (index >= _body_list.length) {
        return _getMoreWidget();
     }
-    Map<String, dynamic> item = _body_list[index];
+    Map<String, dynamic> item = _body_list[index-1];
     // Map<String ,dynamic> map = json.decode(itemJson);
   //  Data data = Data.fromJson(json.decode(itemJson));
     var fresh;
@@ -140,9 +177,10 @@ class _TecPageState extends State<TecPage> with SingleTickerProviderStateMixin{
     }
     return ListTile(
       onTap:(){
+        print(item['collect'].runtimeType);
         Navigator.push(
           context,MaterialPageRoute(
-            builder: (context) => TecWebDetailPage(item['link'],item['title'],id:item['id'])
+            builder: (context) => TecWebDetailPage(item['link'],item['title'],id:item['id'],collected:item['collect'])
           )
         );
       },
@@ -243,6 +281,17 @@ class _TecPageState extends State<TecPage> with SingleTickerProviderStateMixin{
             CircularProgressIndicator(strokeWidth: 1.0,)
           ],
         ),
+      ),
+    );
+  }
+  Widget _swiperBuilder(BuildContext context,int index){
+    print(_swiper_data_list[index]['imagePath']);
+    // return Image.network(_swiper_data_list[index]['imagePath'],fit: BoxFit.cover,);
+    return Card(
+      child: Container(
+        width: 100.0,
+        height: 60.0,
+        decoration: BoxDecoration(color: Colors.red),
       ),
     );
   }

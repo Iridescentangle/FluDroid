@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:flutter/gestures.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:iridescentangle/utils/ToastUtil.dart';
-import 'package:iridescentangle/tec/tec_web_page.dart';
+import 'WebPage.dart';
 class MoreInfoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -153,7 +153,7 @@ class MoreInfoPage extends StatelessWidget {
       onTap: (){
         Navigator.push(context, 
         MaterialPageRoute(
-          builder: (context)=>TecWebDetailPage(url, title)
+          builder: (context)=>WebPage(url, title)
         ));
       },
       child: Card(

@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:iridescentangle/net/HttpService.dart';
 import 'dart:io';
 import 'package:cookie_jar/cookie_jar.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 class DioUtil {
   static const String GET = 'GET';
   static const String POST = 'POST';
@@ -35,13 +35,13 @@ class DioUtil {
         receiveTimeout:15000,
         baseUrl: HttpService.WANANDROID_BASE_URL,
       // dio库中默认将请求数据序列化为json，此处可根据后台情况自行修改
-        contentType: new ContentType('application', 'form-urlencoded',charset: 'utf-8')
+        contentType: new ContentType('application', 'form-urlencoded',charset: 'utf-8'),
       );
       Dio dio = new Dio(options);
       // dio.cookieJar=new PersistCookieJar("./cookies");
       var cj = new CookieJar();
       dio.cookieJar = cj;
-
+      
       if (method == GET) {
         response = await dio.get(url,data: params);
       } else {
@@ -55,6 +55,7 @@ class DioUtil {
         _handError(errorCallBack, errorMsg);
         return;
       }
+      
 
       if (callBack != null) {
         callBack(response);

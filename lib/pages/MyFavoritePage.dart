@@ -111,7 +111,7 @@ class _MyFavoritePageState extends State<MyFavoritePage> {
     return GestureDetector(
       onTap: (){
         Navigator.push(context, 
-        FadePageRoute(TecWebDetailPage(item['link'], item['title'],id:item['id'])));
+        FadePageRoute(TecWebDetailPage(item['link'], item['title'],id:item['id'],collected: true,),));
       },
       child: GridTile(
         child: Card(

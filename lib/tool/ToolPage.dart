@@ -4,6 +4,8 @@ import 'package:flustars/src/screen_util.dart';
 import 'dart:ui';
 import 'package:iridescentangle/pages/DoubanPage.dart';
 import '../pages/WanAndroidPage.dart';
+import 'package:iridescentangle/page_routes/FadePageRoute.dart';
+import 'package:iridescentangle/pages/weather_page.dart';
 class ToolPage extends StatelessWidget {
   double width;
   @override
@@ -11,18 +13,24 @@ class ToolPage extends StatelessWidget {
     width = ScreenUtil.getInstance().screenWidth;
     return Column(
       children: <Widget>[
-        _doubanTool(context),
-        _wanAndroidTool(context),
+        _buildItem(context, '豆瓣电影', (){
+           Navigator.push(context,MaterialPageRoute(
+           builder: (context)=>DoubanPage()
+         ));
+        }),
+        _buildItem(context,'天气',(){
+          Navigator.push(context, 
+            FadePageRoute(WeatherPage())
+          );
+        }),
       ],
     );
   }
-  Widget _doubanTool(BuildContext context){
-    
+  
+  Widget _buildItem(BuildContext context,String title,Function onTap){
     return GestureDetector(
         onTap: (){
-         Navigator.push(context,MaterialPageRoute(
-           builder: (context)=>DoubanPage()
-         ));
+         onTap();
         },
         child:
          Card(
@@ -32,27 +40,7 @@ class ToolPage extends StatelessWidget {
               width: width-20,
               height: 100.0,
               child: Center(
-                child: Text('豆瓣电影',style: TextStyle(color: Colors.black87,fontSize: 20.0),),),
-            ),
-          ),
-        );
-  }
-  Widget _wanAndroidTool(BuildContext context){
-    return GestureDetector(
-        onTap: (){
-         Navigator.push(context,MaterialPageRoute(
-           builder: (context)=>WanAndroidPage()
-         ));
-        },
-        child:
-         Card(
-            margin: EdgeInsets.all(10.0),
-            elevation: 2.0,
-            child: Container(
-              width: width-20,
-              height: 100.0,
-              child: Center(
-                child: Text('WanAndroid',style: TextStyle(color: Colors.black87,fontSize: 20.0),),),
+                child: Text(title,style: TextStyle(color: Colors.black87,fontSize: 20.0),),),
             ),
           ),
         );

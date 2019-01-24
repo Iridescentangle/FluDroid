@@ -5,4 +5,6 @@ class HttpService{
   static const String WANANDROID_UNCOLLECT = "http://www.wanandroid.com/lg/uncollect/~/json";
   static const String WANANDROID_REGISTER = 'http://www.wanandroid.com/user/register';
   static const String WANANDROID_FAVORITE = 'http://www.wanandroid.com/lg/collect/list/~/json';
+  static const String WANANDROID_COLLECT = 'http://www.wanandroid.com/lg/collect/~/json';
+  static const String WANANDROID_BANNER = 'http://www.wanandroid.com/banner/json';
 }

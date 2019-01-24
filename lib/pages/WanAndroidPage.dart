@@ -78,7 +78,12 @@ class _WanAndroidPageState extends State<WanAndroidPage> {
   Widget _headPart(){
     var avatar;
     if(avatarUrl == null || avatarUrl.length == 0){
-      avatarUrl = "https://avatars1.githubusercontent.com/u/33859295?s=460&v=4";
+      // avatarUrl = "https://avatars1.githubusercontent.com/u/33859295?s=460&v=4";
+      avatar = Image.asset('assets/images/wanandroid_avatar.png');
+    }else{
+      avatar = CircleAvatar(
+                backgroundImage: NetworkImage(avatarUrl),
+              );
     }
     return Card(
       margin: EdgeInsets.all(10.0),
@@ -89,9 +94,7 @@ class _WanAndroidPageState extends State<WanAndroidPage> {
             margin: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
             width: width / 5,
             height: width / 5,
-            child: CircleAvatar(
-                backgroundImage: NetworkImage(avatarUrl),
-              ),
+            child: avatar,
             ),
           Container(
             margin: EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 20.0),

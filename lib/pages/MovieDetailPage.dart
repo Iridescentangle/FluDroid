@@ -30,7 +30,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
   @override
   void initState() {
     super.initState();
-    fluwx.register(appId: "wx4cb8c7d62f4d794c");
+    fluwx.register(appId: "wx6df0d4e39075eb37");
     getMovieData();
   }
   void getMovieData() async{
@@ -147,22 +147,26 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
             Link link2 = links[1];
             var linkButton1 = _buildButton(link1.link, link1.name);
             var linkButton2 = _buildButton(link2.link, link2.name);
+            var shareButton = Card(
+                  elevation: 2.0,
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(30.0, 15.0, 30.0, 15.0),
+                    child: Text('分享到微信'),
+                  ),
+            );
             return ListTile(
               leading: GestureDetector(
                 onTap: (){
-                 Future<dynamic> result = fluwx.share(WeChatShareTextModel(
-                    text: "text from fluwx",
-                    transaction: "transaction}",//仅在android上有效，下同。
-                    scene: fluwx.WeChatScene.FAVORITE
+                  Future<dynamic> result = fluwx.share(WeChatShareWebPageModel(
+                    title: widget.title,
+                    thumbnail: _swiper_data_list[0],
+                    description: '评分:$rating \n上映时间:$pubdate',
+                    webPage: links[0].link,
+                    transaction: "transaction}",
+                    scene: fluwx.WeChatScene.SESSION,
                   ));
-                  print(result.then((var map){
-
-                  }));
-
                 },
-                child: Card(
-                  child: Text('分享到微信'),
-                ),
+                child: shareButton,
               ),
               title: Row(
                 children: <Widget>[

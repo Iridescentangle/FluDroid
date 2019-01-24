@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:common_utils/common_utils.dart';
 import 'package:flukit/flukit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';

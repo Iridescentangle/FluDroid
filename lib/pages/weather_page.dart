@@ -15,17 +15,18 @@ class WeatherPage extends StatefulWidget {
 class _WeatherPageState extends State<WeatherPage>  with SingleTickerProviderStateMixin{
   String city = "bei jing shi";
   String city_name = "北京市";
-  var tmp = '';
+  String tmp = '';
   var fl = '';
   var hum ='';
   var cond_txt = '';
   var loc = '';
   var wind_sc = '';
   var wind_dir = '';
+  bool hasData = false;
   @override
   void initState() {
-    super.initState();
     loadData(city);
+    super.initState();
   }
   @override
   bool get wantKeepAlive => true;
@@ -51,8 +52,9 @@ class _WeatherPageState extends State<WeatherPage>  with SingleTickerProviderSta
       if(weather['status'] == "ok"){
         var now = weather['now'];
         setState(() {
+                  hasData = true;
                   city_name = weather['basic']['location'];
-                  tmp = now['tmp'];
+                  tmp = '${now['tmp']}';
                   fl = now['fl'];
                   hum = now['hum'];
                   cond_txt = now['cond_txt'];
@@ -65,10 +67,11 @@ class _WeatherPageState extends State<WeatherPage>  with SingleTickerProviderSta
   }
   @override
   Widget build(BuildContext context) {
-    if(tmp == ''){
-      return Center(child:CupertinoActivityIndicator());
+    Widget body;
+    if(!hasData){
+      return Scaffold(appBar:AppBar(title: Text('天气'),centerTitle: true,),body:Center(child:CupertinoActivityIndicator()));
     }else{
-      return Stack(
+      body =  Stack(
         children: <Widget>[
           Stack(
                   children: <Widget>[
@@ -201,8 +204,10 @@ class _WeatherPageState extends State<WeatherPage>  with SingleTickerProviderSta
               ],
             ), 
         ]
-        
-        
+      );
+      return Scaffold(
+        appBar: AppBar(title: Text('天气'),centerTitle: true,),
+        body:body,
       );
     }
   }
@@ -214,7 +219,7 @@ class _WeatherPageState extends State<WeatherPage>  with SingleTickerProviderSta
                       );
       setState(() {
                 city = result.namePinyin;
-                loadData(city);
       });
+      loadData(city);
   }
 }

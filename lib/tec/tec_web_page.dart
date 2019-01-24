@@ -1,49 +1,77 @@
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
-class TecWebDetailPage extends StatelessWidget {
-  final String url;
-  final String title;
+import 'package:iridescentangle/utils/HttpUtil.dart';
+import 'package:iridescentangle/net/HttpService.dart';
+import 'package:iridescentangle/utils/ToastUtil.dart';
+class TecWebDetailPage extends StatefulWidget {
+  String url;
+  String title;
+  bool collected;
   int id = -1;
+  TecWebDetailPage(this.url,this.title,{Key key,int this.id,this.collected}):super(key:key);
+  _TecWebDetailPageState createState() => _TecWebDetailPageState();
+}
 
-  TecWebDetailPage(this.url, this.title,{int this.id});
-
+class _TecWebDetailPageState extends State<TecWebDetailPage> {
+  bool _collected = false;
   @override
   Widget build(BuildContext context) {
-    // return new WebviewScaffold(
-    //   withJavascript: true,
-    //   url: url,
-    //   scrollBar:true,
-    //   withLocalUrl: true,
-    //   appBar: new AppBar(
-    //     title: Text(title),
-    //   ),
-    // );
     var icon ;
-    if(id != -1){
+    var iconChild;
+    if(_collected){
+      iconChild = Icon(Icons.favorite,color: Colors.red,size: 50.0,);
+    }else{
+      iconChild = Icon(Icons.favorite_border,color: Colors.red,size: 50.0,);
+    }
+    if(widget.id != -1){
       icon = GestureDetector(
         onTap: (){
-
+          //收藏或者取消收藏该文章
+          _collectOrUncollect(widget.id);
         },
-        child: Icon(Icons.favorite_border,size: 30.0,),
+        child: iconChild,
       );
     }else{
       icon = Container();
     }
     return Scaffold(
-      appBar: AppBar(title: Text(title),),
+      appBar: AppBar(title: Text(widget.title),),
       body: Stack(
         children: <Widget>[
            WebView(
-          initialUrl: url,
+          initialUrl: widget.url,
           javascriptMode: JavascriptMode.unrestricted,
           ),
           Positioned(
-            bottom: 10.0,
-            right: 10.0,
+            bottom: 20.0,
+            right: 20.0,
             child: icon,
           ),
         ],
     ),);
+  }
+  void _collectOrUncollect(int id) async{
+    if(!_collected){
+      HttpUtil.post(HttpService.WANANDROID_COLLECT.replaceAll('~', '${widget.id}'), 
+      (data){
+        ToastUtil.showToast('收藏成功!');
+        setState(() {
+                  _collected = true;
+                });
+      });
+    }else{
+      String url = 'http://www.wanandroid.com/lg/uncollect_originId/~/json'.replaceFirst('~', '${widget.id}');
+      HttpUtil.post(url, 
+        (data){
+        ToastUtil.showToast('取消收藏成功!');
+        setState(() {
+                  _collected = false;
+                });
+        },
+      errorCallback: (msg){
+        ToastUtil.showToast(msg);
+      }
+      );
+    }
   }
 }
