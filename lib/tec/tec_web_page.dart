@@ -3,6 +3,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 import 'package:iridescentangle/utils/HttpUtil.dart';
 import 'package:iridescentangle/net/HttpService.dart';
 import 'package:iridescentangle/utils/ToastUtil.dart';
+import 'package:iridescentangle/utils/UserUtil.dart';
 class TecWebDetailPage extends StatefulWidget {
   String url;
   String title;
@@ -14,14 +15,32 @@ class TecWebDetailPage extends StatefulWidget {
 
 class _TecWebDetailPageState extends State<TecWebDetailPage> {
   bool _collected = false;
+  bool isLogin = false;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getLoginState();
+  }
+  void getLoginState() async {
+    UserUtil.isLogin().then((_){
+      setState(() {
+        isLogin = _;
+      });
+    });
+  }
   @override
   Widget build(BuildContext context) {
     var icon ;
     var iconChild;
-    if(_collected){
-      iconChild = Icon(Icons.favorite,color: Colors.red,size: 50.0,);
+    if(isLogin && widget.id != null){
+      if(_collected){
+        iconChild = Icon(Icons.favorite,color: Colors.red,size: 50.0,);
+      }else{
+        iconChild = Icon(Icons.favorite_border,color: Colors.red,size: 50.0,);
+      }
     }else{
-      iconChild = Icon(Icons.favorite_border,color: Colors.red,size: 50.0,);
+      iconChild = Container(width: 1,height: 1,);
     }
     if(widget.id != -1){
       icon = GestureDetector(

@@ -7,6 +7,8 @@ import 'package:iridescentangle/utils/HttpUtil.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 // import 'package:flukit/src/swiper.dart';
 import 'package:iridescentangle/net/HttpService.dart';
+import 'package:iridescentangle/page_routes/FadePageRoute.dart';
+import 'dart:convert';
 class TecPage extends StatefulWidget {
   _TecPageState createState() => _TecPageState();
 }
@@ -107,46 +109,41 @@ class _TecPageState extends State<TecPage> with SingleTickerProviderStateMixin{
   }
   Widget _renderTile(BuildContext context,int index){
     if(index == 0){
-      return Container();
-      // return Swiper(
-      //        pagination: new SwiperPagination(
-      //           builder: DotSwiperPaginationBuilder(
-      //         color: Colors.black54,
-      //         activeColor: Colors.white,
-      //       )),
-      //       itemBuilder: _swiperBuilder,
-      //       itemCount: _swiper_data_list.length,
-      //       // control: _swiperControl,
-      //       scrollDirection: Axis.horizontal,
-      //       autoplay: true,
-      //       onTap: (index){
-      //         print('点击了第$index个');
-      //       }
-      //     );
-      // return Swiper(
-      //       itemBuilder: _swiperBuilder,
-      //       itemCount: 3,
-      //       pagination: new SwiperPagination(
-      //           builder: DotSwiperPaginationBuilder(
-      //         color: Colors.black54,
-      //         activeColor: Colors.white,
-      //       )),
-      //       control: new SwiperControl(),
-      //       scrollDirection: Axis.horizontal,
-      //       autoplay: true,
-      //       onTap: (index) => print('点击了第$index个'),
-      //     );
+      if(_swiper_data_list == null || _swiper_data_list.length == 0){
+        return Container();
+      }else{
+        return Container(
+          width: MediaQuery.of(context).size.width,
+          height: 200.0,
+          child: Swiper(
+            //  pagination: new SwiperPagination(
+            //     builder: FractionPaginationBuilder(
+            //       activeFontSize: 20.0,
+            //       fontSize: 20.0,
+            //   color: Colors.black54,
+            //   activeColor: Colors.white,
+            // )),
+            itemBuilder: _swiperBuilder,
+            itemCount: _swiper_data_list.length,
+            // control: _swiperControl,
+            scrollDirection: Axis.horizontal,
+            autoplay: true,
+            onTap: (index){
+              Navigator.push(context, 
+                FadePageRoute(TecWebDetailPage(_swiper_data_list[index]['url'],_swiper_data_list[index]['title'],))
+              );
+            }
+          ),);
+      }
     }
-    if (index >= _body_list.length) {
+    if (index >= _body_list.length+1) {
        return _getMoreWidget();
     }
     Map<String, dynamic> item = _body_list[index-1];
-    // Map<String ,dynamic> map = json.decode(itemJson);
-  //  Data data = Data.fromJson(json.decode(itemJson));
     var fresh;
     var collect;
     var envolope;
-    if(index < 2){
+    if(index < 3){
     fresh =  Container(
       margin: EdgeInsets.all(10.0),
                          decoration: BoxDecoration(
@@ -177,7 +174,6 @@ class _TecPageState extends State<TecPage> with SingleTickerProviderStateMixin{
     }
     return ListTile(
       onTap:(){
-        print(item['collect'].runtimeType);
         Navigator.push(
           context,MaterialPageRoute(
             builder: (context) => TecWebDetailPage(item['link'],item['title'],id:item['id'],collected:item['collect'])
@@ -285,15 +281,7 @@ class _TecPageState extends State<TecPage> with SingleTickerProviderStateMixin{
     );
   }
   Widget _swiperBuilder(BuildContext context,int index){
-    print(_swiper_data_list[index]['imagePath']);
-    // return Image.network(_swiper_data_list[index]['imagePath'],fit: BoxFit.cover,);
-    return Card(
-      child: Container(
-        width: 100.0,
-        height: 60.0,
-        decoration: BoxDecoration(color: Colors.red),
-      ),
-    );
+    return Image.network(_swiper_data_list[index]['imagePath'],fit: BoxFit.cover,);
   }
  
 }
