@@ -70,7 +70,6 @@ class _TecPageState extends State<TecPage> with SingleTickerProviderStateMixin{
             });
     });
     HttpUtil.get(HttpService.WANANDROID_BANNER, (data){
-      print(data);
       _swiper_data_list.addAll(data);
     });
 
