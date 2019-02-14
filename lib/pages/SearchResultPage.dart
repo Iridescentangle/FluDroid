@@ -7,10 +7,15 @@ class SearchResultPage extends StatefulWidget {
 
 class _SearchResultPageState extends State<SearchResultPage> {
   @override
+  void initState() {
+    super.initState();
+    
+  }
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      //  child: child,
-      child: Text(widget.name),
+    return Scaffold(
+      appBar: AppBar(title: Text(widget.name),),
+
     );
   }
 }
