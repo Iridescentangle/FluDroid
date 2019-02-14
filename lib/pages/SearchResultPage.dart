@@ -10,6 +10,7 @@ class _SearchResultPageState extends State<SearchResultPage> {
   Widget build(BuildContext context) {
     return Container(
       //  child: child,
+      child: Text(widget.name),
     );
   }
 }

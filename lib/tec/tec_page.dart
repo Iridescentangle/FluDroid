@@ -25,19 +25,19 @@ class _TecPageState extends State<TecPage> with SingleTickerProviderStateMixin{
   ScrollController _scrollController = ScrollController(); //listview的控制器
   bool isLoading = false; //是否正在加载数据
   @override
-    void initState() {
-      super.initState();
-      _body_list = List();
-      pageUrl = "http://www.wanandroid.com/article/list/${page}/json";
-      loadData(page);
-      _scrollController.addListener(() {
-        if (_scrollController.position.pixels ==
-            _scrollController.position.maxScrollExtent) {
-          _getMore();
-        }
-      });
-    }
-   /**
+  void initState() {
+    super.initState();
+    _body_list = List();
+    pageUrl = "http://www.wanandroid.com/article/list/${page}/json";
+    loadData(page);
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        _getMore();
+      }
+    });
+  }
+  /**
    * 上拉加载更多
    */
   Future _getMore() async {
@@ -48,26 +48,26 @@ class _TecPageState extends State<TecPage> with SingleTickerProviderStateMixin{
       page += 1;
       pageUrl = "http://www.wanandroid.com/article/list/${page}/json";
       HttpUtil.get(pageUrl, (data){
-         Future.delayed(Duration(seconds: 1), () {
-            setState(() {
-              _body_list.addAll(data['datas']);
-              isLoading = false;
-            });
+        Future.delayed(Duration(seconds: 1), () {
+          setState(() {
+            _body_list.addAll(data['datas']);
+            isLoading = false;
+          });
         });
       });
-      
+
     }
   }
   void loadData(int page) async{
     HttpUtil.get(topUrl, (data){
       setState(() {
-              _body_list.addAll(data['data']);
-            });
+        _body_list.addAll(data['data']);
+      });
     });
     HttpUtil.get(pageUrl, (data){
       setState(() {
-              _body_list.addAll(data['datas']);
-            });
+        _body_list.addAll(data['datas']);
+      });
     });
     HttpUtil.get(HttpService.WANANDROID_BANNER, (data){
       _swiper_data_list.addAll(data);
@@ -75,10 +75,10 @@ class _TecPageState extends State<TecPage> with SingleTickerProviderStateMixin{
 
   }
   @override
-    void dispose() {
-      _scrollController.dispose();
-      super.dispose();
-    }
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     if(_body_list == null || _body_list.length == 0){
@@ -87,10 +87,10 @@ class _TecPageState extends State<TecPage> with SingleTickerProviderStateMixin{
       return RefreshIndicator(
         onRefresh: _onRefresh,
         child:ListView.builder(
-            itemBuilder: _renderTile,
-            itemCount: _body_list.length+2,
-            controller: _scrollController,
-           ),
+          itemBuilder: _renderTile,
+          itemCount: _body_list.length+2,
+          controller: _scrollController,
+        ),
       );
     }
   }
@@ -100,8 +100,8 @@ class _TecPageState extends State<TecPage> with SingleTickerProviderStateMixin{
   Future<Null> _onRefresh() async {
     await Future.delayed(Duration(seconds: 3), () {
       setState(() {
-              _body_list.clear();
-            });
+        _body_list.clear();
+      });
       page = 0;
       loadData(page);
     });
@@ -122,40 +122,40 @@ class _TecPageState extends State<TecPage> with SingleTickerProviderStateMixin{
             //   color: Colors.black54,
             //   activeColor: Colors.white,
             // )),
-            itemBuilder: _swiperBuilder,
-            itemCount: _swiper_data_list.length,
-            // control: _swiperControl,
-            scrollDirection: Axis.horizontal,
-            autoplay: true,
-            onTap: (index){
-              Navigator.push(context, 
-                FadePageRoute(TecWebDetailPage(_swiper_data_list[index]['url'],_swiper_data_list[index]['title'],))
-              );
-            }
+              itemBuilder: _swiperBuilder,
+              itemCount: _swiper_data_list.length,
+              // control: _swiperControl,
+              scrollDirection: Axis.horizontal,
+              autoplay: true,
+              onTap: (index){
+                Navigator.push(context,
+                    FadePageRoute(TecWebDetailPage(_swiper_data_list[index]['url'],_swiper_data_list[index]['title'],))
+                );
+              }
           ),);
       }
     }
     if (index >= _body_list.length+1) {
-       return _getMoreWidget();
+      return _getMoreWidget();
     }
     Map<String, dynamic> item = _body_list[index-1];
     var fresh;
     var collect;
     var envolope;
     if(index < 3){
-    fresh =  Container(
-      margin: EdgeInsets.all(10.0),
-                         decoration: BoxDecoration(
-                            border: new Border.all(width: 1.0, color: Colors.red,),
-                            borderRadius: new BorderRadius.all(new Radius.circular(5.0)),
-                            color: Colors.white,
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.all(3.0),
-                          child:
-                            Text('置顶') ,
-                          ),
-                      );
+      fresh =  Container(
+        margin: EdgeInsets.all(10.0),
+        decoration: BoxDecoration(
+          border: new Border.all(width: 1.0, color: Colors.red,),
+          borderRadius: new BorderRadius.all(new Radius.circular(5.0)),
+          color: Colors.white,
+        ),
+        child: Padding(
+          padding: EdgeInsets.all(3.0),
+          child:
+          Text('置顶') ,
+        ),
+      );
     }else{
       fresh = Container(
         margin: EdgeInsets.all(10.0),
@@ -174,9 +174,9 @@ class _TecPageState extends State<TecPage> with SingleTickerProviderStateMixin{
     return ListTile(
       onTap:(){
         Navigator.push(
-          context,MaterialPageRoute(
+            context,MaterialPageRoute(
             builder: (context) => TecWebDetailPage(item['link'],item['title'],id:item['id'],collected:item['collect'])
-          )
+        )
         );
       },
       title: Card(
@@ -185,75 +185,75 @@ class _TecPageState extends State<TecPage> with SingleTickerProviderStateMixin{
         child: Container(
           width: 540.0,
           height: 110.0,
-              child: Stack(
-              children: <Widget>[
-                  Column(
+          child: Stack(
+            children: <Widget>[
+              Column(
+                children: <Widget>[
+                  Row(
                     children: <Widget>[
-                      Row(
-                        children: <Widget>[
-                          fresh,
-                          Container(
-                            margin: EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 15.0),
-                            child: Text('${item['author']}'),
-                          ),
-                        ],
+                      fresh,
+                      Container(
+                        margin: EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 15.0),
+                        child: Text('${item['author']}'),
                       ),
-                      
                     ],
                   ),
-                  Positioned(
-                    left: 10.0,
-                    top: 40.0,
-                    bottom: 10.0,
-                    child: Container(
-                      margin: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 10.0),
-                        child: Text('${item['title']}',style: TextStyle(color: Colors.black,fontSize: 15.0,fontWeight:FontWeight.bold),),
-                      ),
-                  ),
-                  Positioned(
-                    right: 0.0,
-                    child: Container(
-                      margin: EdgeInsets.all(15.0),
-                      child: Text('${item['niceDate']}',style: TextStyle(color: Colors.grey),),
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 5.0,
-                    left: 10.0,
-                    child: Row(
-                      children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 10.0),
-                          child: Text('${item['superChapterName']}/'),
-                        ),
-                        Container(
-                          margin: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 10.0),
-                          child: Text('${item['chapterName']}'),
-                        ),
 
-                      ],
-                    )
-                  ),
-                  Positioned(
-                    right: 5.0,
-                    bottom: 5.0,
-                    child: Container(
-                      width: 30.0,
-                      height: 30.0,
-                      child: collect,
-                    ),
-                  ),
-                  Positioned(
-                    right: 10.0,
-                    top: 40.0,
-                    child: Container(
-                      width: 40.0,
-                      height: 30.0,
-                      child: envolope,
-                    ),
-                  ),
-              ],
-            ),
+                ],
+              ),
+              Positioned(
+                left: 10.0,
+                top: 40.0,
+                bottom: 10.0,
+                child: Container(
+                  margin: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 10.0),
+                  child: Text('${item['title']}',style: TextStyle(color: Colors.black,fontSize: 15.0,fontWeight:FontWeight.bold),),
+                ),
+              ),
+              Positioned(
+                right: 0.0,
+                child: Container(
+                  margin: EdgeInsets.all(15.0),
+                  child: Text('${item['niceDate']}',style: TextStyle(color: Colors.grey),),
+                ),
+              ),
+              Positioned(
+                  bottom: 5.0,
+                  left: 10.0,
+                  child: Row(
+                    children: <Widget>[
+                      Container(
+                        margin: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 10.0),
+                        child: Text('${item['superChapterName']}/'),
+                      ),
+                      Container(
+                        margin: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 10.0),
+                        child: Text('${item['chapterName']}'),
+                      ),
+
+                    ],
+                  )
+              ),
+              Positioned(
+                right: 5.0,
+                bottom: 5.0,
+                child: Container(
+                  width: 30.0,
+                  height: 30.0,
+                  child: collect,
+                ),
+              ),
+              Positioned(
+                right: 10.0,
+                top: 40.0,
+                child: Container(
+                  width: 40.0,
+                  height: 30.0,
+                  child: envolope,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -282,5 +282,5 @@ class _TecPageState extends State<TecPage> with SingleTickerProviderStateMixin{
   Widget _swiperBuilder(BuildContext context,int index){
     return Image.network(_swiper_data_list[index]['imagePath'],fit: BoxFit.cover,);
   }
- 
+
 }
