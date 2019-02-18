@@ -26,7 +26,7 @@ dependencies:
   # 微信分享
   fluwx : ^0.5.5
   # 显示未读消息数的控件
-  badge : ^0.0.3
+  # badge : ^0.0.3
   # SharedPreference：
   shared_preferences : ^0.4.3
   # Toast

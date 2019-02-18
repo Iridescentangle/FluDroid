@@ -8,4 +8,5 @@ class HttpService{
   static const String WANANDROID_COLLECT = 'http://www.wanandroid.com/lg/collect/~/json';
   static const String WANANDROID_BANNER = 'http://www.wanandroid.com/banner/json';
   static const String WANANDROID_HOT_KEY = 'http://www.wanandroid.com//hotkey/json';
+  static const String WANANDROID_SEARCH = 'http://www.wanandroid.com/article/query/~/json';
 }
