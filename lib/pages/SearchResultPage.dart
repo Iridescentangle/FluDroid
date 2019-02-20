@@ -41,13 +41,41 @@ class _SearchResultPageState extends State<SearchResultPage> {
     );
   }
   Widget _renderBody(){
-    if (!_noResult) {
-      return Center(
-        child: Image.asset('assets/images/no_data.png',),
-      );
+    if (_noResult) {
+      return SearchEmptyView();
     }else{
-
+      return ListView(
+        children: 
+        data.map((item){
+          return Container(
+            child: Text('${item['author']}:${item['title']}',style: TextStyle(color: Colors.black,fontSize: 20.0),overflow: TextOverflow.ellipsis,),
+          );
+        }
+        ).toList(),
+      );
     }
     return Container();
+  }
+}
+class SearchEmptyView extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              width: 130.0,
+              height: 100.0,
+              child: Image.asset('assets/images/no_data.png',),
+            ),
+            Padding(
+              padding: EdgeInsets.all(10.0),
+              child: Text('没有搜索到结果，换个词试试?',style:Theme.of(context).textTheme.subhead),
+            ),
+          ],
+        ),
+      );
   }
 }
