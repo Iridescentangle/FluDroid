@@ -22,7 +22,7 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
     if(current_index == 3){
       appBar = null;
     }else{
-      appBar = AppBar(elevation:0.0,title: Center(child:Text(_pageNames[current_index]),));
+      appBar = AppBar(elevation:2.0,title: Center(child:Text(_pageNames[current_index]),));
     }
     return Scaffold(
       appBar: appBar,

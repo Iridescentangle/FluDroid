@@ -114,24 +114,33 @@ class _DoubanTop250PageState extends State<DoubanTop250Page> {
         child:Card(
           elevation: 4.0,
           child: Container(
-            margin: EdgeInsets.fromLTRB(5.0, 10.0, 5.0, 0.0),
-              child:Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+            // margin: EdgeInsets.fromLTRB(5.0, 10.0, 5.0, 0.0),
+              child:Stack(
+                alignment: Alignment.bottomCenter,
+                // mainAxisSize: MainAxisSize.min,
+                // mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   AspectRatio(
-                    aspectRatio: 0.75,  //    ratio = 宽 / 高 ,
-                    child: Image.network(item.images.medium,fit: BoxFit.scaleDown,),
+                    aspectRatio: 0.7,  //    ratio = 宽 / 高 ,
+                    child: Image.network(item.images.medium,fit: BoxFit.cover,),
                   ),
-                  Container(
-                    margin: EdgeInsets.fromLTRB(0.0, 2.0, 0.0, 3.0),
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(color: Colors.white),
-                    child: Text( item.title,
-                      textAlign:TextAlign.center,
-                      overflow:TextOverflow.ellipsis,
-                      maxLines: 1,
-                      style: TextStyle(fontSize: 12.0,),),
+                  Positioned(
+                    bottom: 1.0,
+                    child:Opacity( //透明控件
+                            opacity: 0.8,
+                      child:Container(
+                        width:200.0,
+                        margin: EdgeInsets.all(0.0),
+                        padding: EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 5.0),
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(color: Colors.white,),
+                        child: Text( item.title,
+                          textAlign:TextAlign.center,
+                          overflow:TextOverflow.ellipsis,
+                          maxLines: 1,
+                          style: TextStyle(fontSize: 13.0,fontWeight: FontWeight.bold),),
+                      ),
+                    ),
                   ),
                 ],
               ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iridescentangle/utils/HttpUtil.dart';
 import 'package:iridescentangle/net/HttpService.dart';
+import 'package:flutter/cupertino.dart';
 class SearchResultPage extends StatefulWidget {
   String name;
   SearchResultPage({Key key,this.name}):super(key:key);
@@ -47,15 +48,69 @@ class _SearchResultPageState extends State<SearchResultPage> {
       return ListView(
         children: 
         data.map((item){
-          return Container(
-            child: Text('${item['author']}:${item['title']}',style: TextStyle(color: Colors.black,fontSize: 20.0),overflow: TextOverflow.ellipsis,),
+          String pureTitle = item['title'].toString().replaceAll('<em class=\'highlight\'>', '').replaceAll('</em>', '');
+          return GestureDetector(
+            onTap: (){},
+            child:Card(
+              elevation: 1.0,
+              child: Container(
+                // child: ,
+              ),
+            ),
           );
+          // return Container(
+          //   child: Text('${item['author']}:${pureTitle}',style: TextStyle(color: Colors.black,fontSize: 20.0),overflow: TextOverflow.ellipsis,),
+          // );
         }
         ).toList(),
       );
     }
     return Container();
   }
+  // Widget buildItem(){
+  //   Container(
+  //     height: 56.0,
+  //     margin: EdgeInsets.only(top: 0.0),
+  //     child: new ListTile(
+  //         onTap: (){},
+  //         title: new Row(
+  //           mainAxisSize: MainAxisSize.min,
+  //           children: <Widget>[
+  //             new Icon(
+  //               leftIcon ?? Icons.whatshot,
+  //               color: titleColor ?? Colors.blueAccent,
+  //             ),
+  //             Gaps.hGap10,
+  //             new Expanded(
+  //                 child: new Text(
+  //               title ?? IntlUtil.getString(context, titleId),
+  //               overflow: TextOverflow.ellipsis,
+  //               style: TextStyle(
+  //                   color: titleColor ?? Colors.blueAccent,
+  //                   fontSize: Utils.getTitleFontSize(
+  //                       title ?? IntlUtil.getString(context, titleId))),
+  //             ))
+  //           ],
+  //         ),
+  //         trailing: new Row(
+  //           mainAxisSize: MainAxisSize.min,
+  //           children: <Widget>[
+  //             new Text(
+  //               extra ?? IntlUtil.getString(context, extraId),
+  //               style: TextStyle(color: Colors.grey, fontSize: 14),
+  //             ),
+  //             new Icon(
+  //               rightIcon ?? Icons.keyboard_arrow_right,
+  //               color: Colors.grey,
+  //             ),
+  //           ],
+  //         )),
+  //     decoration: new BoxDecoration(
+  //         //new Border.all(width: 0.33, color: Colours.divider)
+  //         border: new Border(
+  //             bottom: new BorderSide(width: 0.33, color: Colours.divider))),
+  //   );
+  // }
 }
 class SearchEmptyView extends StatelessWidget{
   @override

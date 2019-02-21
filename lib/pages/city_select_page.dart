@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:flukit/flukit.dart';
+import 'package:azlistview/azlistview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -159,7 +159,7 @@ class _CitySelectPageState extends State<CitySelectPage> {
             ),
             Expanded(
                 flex: 1,
-                child: QuickSelectListView(
+                child: AzListView(
                   data: _cityList,
                   // topData: _hotCityList,
                   topData: null,

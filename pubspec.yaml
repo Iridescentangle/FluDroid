@@ -43,10 +43,11 @@ dependencies:
   url_launcher : ^ 4.0.3
   # 调用图库和相机
   image_picker : ^ 0.4.12+1
-  flukit:
-    git:
-      url: git://github.com/flutterchina/flukit.git
-      path: package_src/
+  azlistview: ^0.1.0
+  # flukit:
+  #   git:
+  #     url: git://github.com/flutterchina/flukit.git
+  #     path: package_src/
 dev_dependencies:
   flutter_test:
     sdk: flutter
