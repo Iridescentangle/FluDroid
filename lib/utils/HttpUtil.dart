@@ -66,7 +66,7 @@ class HttpUtil {
       } else {
         res = await http.get(url, headers: headerMap);
       }
-      // print(res.body);
+//       print(res.body);
 
       if (res.statusCode != 200) {
         errorMsg = "网络请求错误,状态码:" + res.statusCode.toString();

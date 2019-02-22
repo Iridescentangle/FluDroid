@@ -3,6 +3,8 @@ import 'news/news_page.dart';
 import 'tec/tec_page.dart';
 import 'tool/ToolPage.dart';
 import 'package:iridescentangle/pages/WanAndroidPage.dart';
+import 'package:iridescentangle/utils/HttpUtil.dart';
+import 'package:iridescentangle/utils/ToastUtil.dart';
 class BottomNavigationWidget extends StatefulWidget {
   _BottomNavigationWidgetState createState() => _BottomNavigationWidgetState();
 }
@@ -13,9 +15,29 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
   final _bottom_navigation_color = Colors.lightBlue;
   int current_index = 0;
   @override
-    void initState() {
-      super.initState();
-    }
+  void initState() {
+    super.initState();
+  }
+  Future<bool> _onWillPop() {
+    return showDialog(
+      context: context,
+      builder: (context) => new AlertDialog(
+        title: new Text('Are you sure?'),
+        content: new Text('Do you want to exit an App'),
+        actions: <Widget>[
+          new FlatButton(
+//            onPressed: () => Navigator.of(context).pop(false),
+            onPressed:()=> Navigator.pop(context),
+            child: new Text('No'),
+          ),
+          new FlatButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: new Text('Yes'),
+          ),
+        ],
+      ),
+    ) ?? false;
+  }
   @override
   Widget build(BuildContext context) {
     var appBar;
@@ -24,44 +46,47 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
     }else{
       appBar = AppBar(elevation:2.0,title: Center(child:Text(_pageNames[current_index]),));
     }
-    return Scaffold(
-      appBar: appBar,
-      // appBar: AppBar(title: Container(decoration: BoxDecoration(color: Colors.blue),),),
-      bottomNavigationBar: BottomNavigationBar(
-      currentIndex: current_index,
-      items: [
-        BottomNavigationBarItem(
-          title: Text('${_pageNames[0]}',),
-          icon: Icon(Icons.book,),
-        ),
-        BottomNavigationBarItem(
-          title: Text(_pageNames[1],),
-          icon: Icon(Icons.build,),
-        ),
-        BottomNavigationBarItem(
-          title: Text(_pageNames[2],),
-          icon: Icon(Icons.pan_tool,),
-        ),
-        BottomNavigationBarItem(
-          title: Text(_pageNames[3],),
-          icon: Icon(Icons.android,),
-        ),
-      ],
-      type: BottomNavigationBarType.fixed,
-      onTap: (int index){
-        setState(() {
-                  current_index = index;
-                });
-      },
-    ),
-      body: IndexedStack(
-        children: <Widget>[
-          NewsPage(),
-          TecPage(),
-          ToolPage(),
-          WanAndroidPage(),
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
+        appBar: appBar,
+        // appBar: AppBar(title: Container(decoration: BoxDecoration(color: Colors.blue),),),
+        bottomNavigationBar: BottomNavigationBar(
+        currentIndex: current_index,
+        items: [
+          BottomNavigationBarItem(
+            title: Text('${_pageNames[0]}',),
+            icon: Icon(Icons.book,),
+          ),
+          BottomNavigationBarItem(
+            title: Text(_pageNames[1],),
+            icon: Icon(Icons.build,),
+          ),
+          BottomNavigationBarItem(
+            title: Text(_pageNames[2],),
+            icon: Icon(Icons.pan_tool,),
+          ),
+          BottomNavigationBarItem(
+            title: Text(_pageNames[3],),
+            icon: Icon(Icons.android,),
+          ),
         ],
-        index: current_index,
+        type: BottomNavigationBarType.fixed,
+        onTap: (int index){
+          setState(() {
+                    current_index = index;
+                  });
+        },
+      ),
+        body: IndexedStack(
+          children: <Widget>[
+            NewsPage(),
+            TecPage(),
+            ToolPage(),
+            WanAndroidPage(),
+          ],
+          index: current_index,
+        ),
       ),
     );
   }

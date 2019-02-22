@@ -170,7 +170,7 @@ class _MyFavoritePageState extends State<MyFavoritePage> {
   }
   Widget _buildBottom(String title,String author,String pubDate,int index,int id,int originId){
     return Container(
-      height: 100.0,
+      height: 120.0,
       width: MediaQuery.of(context).size.width/2,
       decoration: BoxDecoration(color: Colors.grey.shade400),
       child:Column(
