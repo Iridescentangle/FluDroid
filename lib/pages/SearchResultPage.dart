@@ -16,20 +16,34 @@ class _SearchResultPageState extends State<SearchResultPage> {
   String url = HttpService.WANANDROID_SEARCH;
   List data = List();
   bool _noResult = true;
+  bool _refresh = false;
+  ScrollController _controller = ScrollController();
+  int page = 0;
   @override
   void initState() {
     super.initState();
+    _controller.addListener((){
+      if(_controller.position.pixels == _controller.position.maxScrollExtent){
+        page ++;
+        _search();
+      }
+    });
     _search();
   }
   void _search() async {
     Map<String,String> map =Map();
     map['k'] =widget.name;
-    HttpUtil.post(url.replaceAll('~', '0'),(data){
+    HttpUtil.post(url.replaceAll('~', page.toString()),(data){
       List datas = data['datas'];
       if(datas != null && datas.length > 0){
         setState(() {
+          if(_refresh){
+            this.data.clear();
+            this.data.addAll(datas);
+            _refresh = false;
+            return;
+          }
           _noResult = false;
-          this.data.clear();
           this.data.addAll(datas);
         });
       };
@@ -46,19 +60,32 @@ class _SearchResultPageState extends State<SearchResultPage> {
     );
   }
   Widget _renderBody(){
+    if(_refresh){
+      return Center(child:CircularProgressIndicator());
+    }
     if (_noResult) {
       return SearchEmptyView();
     }else{
-      return ListView(
-        children: 
-        data.map((item){
-          String pureTitle = item['title'].toString().replaceAll('<em class=\'highlight\'>', '').replaceAll('</em>', '');
-          return Card(
-              elevation: 1.0,
-              child: buildItem(context,item,pureTitle),
-          );
-        }
-        ).toList(),
+      return RefreshIndicator(
+        onRefresh: (){
+          setState(() {
+            _refresh = true;
+          });
+          page = 0;
+          _search();
+        },
+          child:ListView(
+          controller: _controller,
+          children:
+          data.map((item){
+            String pureTitle = item['title'].toString().replaceAll('<em class=\'highlight\'>', '').replaceAll('</em>', '');
+            return Card(
+                elevation: 1.0,
+                child: buildItem(context,item,pureTitle),
+            );
+          }
+          ).toList(),
+        ),
       );
     }
   }

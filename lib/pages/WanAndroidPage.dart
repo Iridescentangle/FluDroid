@@ -45,26 +45,29 @@ class _WanAndroidPageState extends State<WanAndroidPage> {
   Widget build(BuildContext context) {
     width = ScreenUtil.getScreenW(context);
     return Scaffold(
-       appBar: AppBar(title: Text("WanAndroid"),centerTitle: true,
-       actions: <Widget>[
-         IconButton(
-           icon: Icon(Icons.search),
-           onPressed: (){
-             Navigator.of(context).push(
-               MaterialPageRoute(
-                 builder: (context)=>SearchPage()
-               ),
-             );
-           },
+        appBar: AppBar(
+          elevation: 0.0,
+         title: Text("WanAndroid"),centerTitle: true,
+         actions: <Widget>[
+           IconButton(
+             icon: Icon(Icons.search),
+             onPressed: (){
+               Navigator.of(context).push(
+                 MaterialPageRoute(
+                   builder: (context)=>SearchPage()
+                 ),
+               );
+             },
+           ),
+          ],
          ),
-        ],
-       ),
        body: _renderBody(context),
     );
   }
   Widget _renderBody(BuildContext context){
     return ListView(
       children: <Widget>[
+        _clipPath(),
         _headPart(),
         _login(),
         _myFavorite(),
@@ -74,6 +77,9 @@ class _WanAndroidPageState extends State<WanAndroidPage> {
        
       ],
     );
+  }
+  Widget _clipPath(){
+    return Container();//TODO
   }
   Widget _headPart(){
     var avatar;

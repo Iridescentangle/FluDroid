@@ -22,17 +22,17 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
     return showDialog(
       context: context,
       builder: (context) => new AlertDialog(
-        title: new Text('Are you sure?'),
-        content: new Text('Do you want to exit an App'),
+        title: new Text('退出程序?'),
+        content: new Text('点击确定退出'),
         actions: <Widget>[
           new FlatButton(
 //            onPressed: () => Navigator.of(context).pop(false),
             onPressed:()=> Navigator.pop(context),
-            child: new Text('No'),
+            child: new Text('取消'),
           ),
           new FlatButton(
             onPressed: () => Navigator.of(context).pop(true),
-            child: new Text('Yes'),
+            child: new Text('确定'),
           ),
         ],
       ),
