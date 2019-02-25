@@ -268,7 +268,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
   }
   Widget _MoviePoster(){
     if(_swiper_data_list.length == 0){
-      return Container(width: 1.0,height: 1.0,);
+      return Container();
     }
     return Container(
           width: MediaQuery.of(context).size.width,

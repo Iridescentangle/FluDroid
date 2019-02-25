@@ -6,6 +6,7 @@ import 'package:iridescentangle/pages/DoubanPage.dart';
 import '../pages/WanAndroidPage.dart';
 import 'package:iridescentangle/page_routes/FadePageRoute.dart';
 import 'package:iridescentangle/pages/weather_page.dart';
+import 'package:iridescentangle/pages/MoviePage.dart';
 class ToolPage extends StatelessWidget {
   double width;
   @override
@@ -22,6 +23,9 @@ class ToolPage extends StatelessWidget {
           Navigator.push(context, 
             FadePageRoute(WeatherPage())
           );
+        }),
+        _buildItem(context, '电影详情', (){
+          Navigator.push(context, FadePageRoute(MoviePage()));
         }),
       ],
     );
