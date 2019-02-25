@@ -137,7 +137,6 @@ class _LoginPageState extends State<LoginPage> {
       var result = await Navigator.push(context, 
       FadePageRoute(RegisterPage(name:name))
       );
-      print(result);
       if(result == 1){
         //说明是自动登录成功了
         Navigator.pop(context,1);
@@ -159,9 +158,6 @@ class _LoginPageState extends State<LoginPage> {
     map['username'] = userName;
     map['password'] = passWord;
     HttpUtil.post("user/login",(var data){
-      // var data = response.data;
-      print(data);
-      // if(data['errorCode'] == 0){
       if(data != null){
         // print(data);
         //说明登录成功了返回了用户数据

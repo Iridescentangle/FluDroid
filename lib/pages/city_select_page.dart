@@ -94,6 +94,7 @@ class _CitySelectPageState extends State<CitySelectPage> {
         list[i].tagIndex = "#";
       }
     }
+    SuspensionUtil.sortListBySuspensionTag(_cityList);
   }
 
   void _onSusTagChanged(String tag) {

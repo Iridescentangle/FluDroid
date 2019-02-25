@@ -30,6 +30,12 @@ class _SearchResultPageState extends State<SearchResultPage> {
     });
     _search();
   }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+     _controller.dispose();
+    super.dispose();
+  }
   void _search() async {
     Map<String,String> map =Map();
     map['k'] =widget.name;

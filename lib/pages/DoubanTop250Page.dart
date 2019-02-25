@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:iridescentangle/model/DouBanMovieTree.dart';
 import 'dart:convert';
-import 'package:flustars/src/screen_util.dart';
 import 'MovieDetailPage.dart';
 class DoubanTop250Page extends StatefulWidget {
   _DoubanTop250PageState createState() => _DoubanTop250PageState();
@@ -29,7 +28,6 @@ class _DoubanTop250PageState extends State<DoubanTop250Page> {
     void dispose() {
       _scrollController.dispose();
       super.dispose();
-      
     }
   
   void getData(int page) async{
@@ -51,7 +49,8 @@ class _DoubanTop250PageState extends State<DoubanTop250Page> {
     }
     return Scaffold(
       appBar: AppBar(
-        title: Text('豆瓣电影Top250'),
+        title: Text('豆瓣电影TOP250'),
+        centerTitle: true,
       ),
       body: body,
     );
@@ -149,6 +148,7 @@ class _DoubanTop250PageState extends State<DoubanTop250Page> {
       ),
     );
   }
+  
   void _getMore() async{
     if(!isLoading){
       setState(() {

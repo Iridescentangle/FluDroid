@@ -22,6 +22,7 @@ class _WanAndroidPageState extends State<WanAndroidPage> {
   double width;
   String username = "";
   String avatarUrl = "";
+  bool _isLogin = false;
   @override
     void initState() {
       // TODO: implement initState
@@ -33,7 +34,8 @@ class _WanAndroidPageState extends State<WanAndroidPage> {
       (name){
         setState(() {
             if(name != null){
-                    username = name;
+              _isLogin = true;
+              username = name;
             }else{
               username = '未登录状态';
             }
@@ -46,17 +48,22 @@ class _WanAndroidPageState extends State<WanAndroidPage> {
     width = ScreenUtil.getScreenW(context);
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: Colors.blue,
           elevation: 0.0,
          title: Text("WanAndroid"),centerTitle: true,
          actions: <Widget>[
            IconButton(
              icon: Icon(Icons.search),
              onPressed: (){
-               Navigator.of(context).push(
-                 MaterialPageRoute(
-                   builder: (context)=>SearchPage()
-                 ),
-               );
+               if(_isLogin){
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context)=>SearchPage()
+                  ),
+                );
+               }else{
+                 ToastUtil.showToast('您尚未登录!');
+               }
              },
            ),
           ],
@@ -67,7 +74,6 @@ class _WanAndroidPageState extends State<WanAndroidPage> {
   Widget _renderBody(BuildContext context){
     return ListView(
       children: <Widget>[
-        _clipPath(),
         _headPart(),
         _login(),
         _myFavorite(),
@@ -78,38 +84,58 @@ class _WanAndroidPageState extends State<WanAndroidPage> {
       ],
     );
   }
-  Widget _clipPath(){
-    return Container();//TODO
+  Widget _clipPath(color,height){
+    return ClipPath(
+      clipper: AvatarBackGroungClipper(),
+      child: Container(
+        color: color,
+        height: height,
+      ),
+    );
   }
   Widget _headPart(){
+    
     var avatar;
     if(avatarUrl == null || avatarUrl.length == 0){
       // avatarUrl = "https://avatars1.githubusercontent.com/u/33859295?s=460&v=4";
-      avatar = Image.asset('assets/images/wanandroid_avatar.png');
+      avatar = Image.asset('assets/images/wanandroid_avatar.png',);
     }else{
       avatar = CircleAvatar(
                 backgroundImage: NetworkImage(avatarUrl),
               );
     }
-    return Card(
-      margin: EdgeInsets.all(10.0),
-      elevation: 4.0,
-      child: Column(
+    return Container(
+      height: 200.0,
+      child: Stack(
+        alignment: Alignment.topCenter,
         children: <Widget>[
-          Container(
-            margin: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
-            width: width / 5,
-            height: width / 5,
-            child: avatar,
-            ),
-          Container(
-            margin: EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 20.0),
-            alignment: Alignment.center,
-            child: Text('${username}',style: TextStyle(fontSize: 20.0,)),
+          _clipPath(Colors.lightBlueAccent,200.0),
+          _clipPath(Colors.lightBlue,160.0),
+          _clipPath(Colors.blue, 120.0),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 0.0),
+                width: width / 5,
+                height: width / 5,
+                child: avatar,
+                ),
+              Container(
+                margin: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 20.0),
+                alignment: Alignment.center,
+                child: Text('${username}',style: TextStyle(fontSize: 20.0,color: Colors.white)),
+              ),
+            ],
           ),
         ],
       ),
     );
+    // return Card(
+    //   margin: EdgeInsets.all(10.0),
+    //   elevation: 4.0,
+    //   child: 
+    // );
   }
   Widget _login(){
     return _buildListTile(
@@ -148,11 +174,13 @@ class _WanAndroidPageState extends State<WanAndroidPage> {
     // }
     if(data == 1){
       //说明是注册成功了自动登录的界面
+      _isLogin = true; 
       initUserInfo();
       return;
     }
      if(data != null){
       setState(() {
+              _isLogin = true;
               username = data['username'];
               if(data['icon'].length != 0){
                 avatarUrl = data['icon'];
@@ -184,11 +212,11 @@ class _WanAndroidPageState extends State<WanAndroidPage> {
       Icon(Icons.settings), 
       Text('设置中心'), 
       (){
-        // ToastUtil.showToast('开发中,敬请期待!');
-        Navigator.push(context, 
-        MaterialPageRoute(
-          builder: (context)=>PickImgPage()
-        ));
+        ToastUtil.showToast('开发中,敬请期待!');
+        // Navigator.push(context, 
+        // MaterialPageRoute(
+        //   builder: (context)=>PickImgPage()
+        // ));
       });
   }
   Widget _about(){
@@ -216,6 +244,7 @@ class _WanAndroidPageState extends State<WanAndroidPage> {
                     UserUtil.localLogOut();
                     setState(() {
                       username = '未登录状态';
+                      _isLogin = false;
                     });
                   }else{
                     ToastUtil.showToast('请再试一次!');
@@ -249,5 +278,23 @@ class _WanAndroidPageState extends State<WanAndroidPage> {
           trailing: Icon(Icons.arrow_right),
         )
       );
+  }
+}
+class AvatarBackGroungClipper extends CustomClipper<Path>{
+  @override
+  Path getClip(Size size) {
+    Path path = Path();
+    path.lineTo(0,0);
+    path.lineTo(0, size.height-50);
+    var firstControlPoint = Offset(size.width / 2, size.height);
+    var firstEndPoint = Offset(size.width , size.height - 50);
+    path.quadraticBezierTo(firstControlPoint.dx, firstControlPoint.dy, firstEndPoint.dx, firstEndPoint.dy);
+    path.lineTo(size.width, size.height -50);
+    path.lineTo(size.width, 0.0);
+    return path;
+  }
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) {
+    return false;
   }
 }
