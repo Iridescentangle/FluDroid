@@ -16,9 +16,9 @@ class _DoubanSearchPageState extends State<DoubanSearchPage> {
     return Scaffold(
       appBar: AppBar(
                 title: TextField(
-                  
+                  decoration: InputDecoration(hintText: '请输入要搜索的电影名',fillColor: Colors.white),
                   maxLines: 1,
-                  decoration: InputDecoration.collapsed(hintText: '请输入您要搜索的电影名称',fillColor: Colors.white),
+                  // decoration: InputDecoration.collapsed(hintText: '请输入您要搜索的电影名称',fillColor: Colors.white),
                   cursorColor: Colors.white,
                     controller: _textController,
                   ),
