@@ -43,7 +43,10 @@ dependencies:
   url_launcher : ^ 4.0.3
   # 调用图库和相机
   image_picker : ^ 0.4.12+1
+  # 快速检索列表
   azlistview: ^0.1.0
+  # 极光推送
+  jpush_flutter: ^0.0.11
   # flukit:
   #   git:
   #     url: git://github.com/flutterchina/flukit.git
