@@ -41,13 +41,16 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        ndk {
-            //选择要添加的对应 cpu 类型的 .so 库。
-            abiFilters 'armeabi', 'armeabi-v7a', 'x86', 'x86_64', 'mips', 'mips64', 'arm64-v8a',        
+        // ndk {
+        //     //选择要添加的对应 cpu 类型的 .so 库。
+        //     abiFilters 'armeabi', 'armeabi-v7a', 'x86', 'x86_64', 'mips', 'mips64', 'arm64-v8a',        
+        // }
+        ndk{
+            abiFilters 'armeabi','armeabi-v7a','arm64-v8a'
         }
 
         manifestPlaceholders = [
-            JPUSH_PKGNAME : applicationId,
+            JPUSH_PKGNAME : "com.flutter.iridescentangle",
             JPUSH_APPKEY : "316bd598d801b822aa1651f8", // NOTE: JPush 上注册的包名对应的 Appkey.
             JPUSH_CHANNEL : "developer-default", //暂时填写默认值即可.
         ]

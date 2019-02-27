@@ -32,11 +32,11 @@ dependencies:
   # Toast
   fluttertoast: ^2.2.6
   # 工具包
-  flustars: ^0.1.9
+  flustars: ^0.2.4
   # 轮播图
   flutter_swiper: ^1.1.4
   # 拼音库
-  lpinyin: ^1.0.6
+  lpinyin: ^1.0.7
   # dio网络请求库
   dio : ^1.0.13
   # 超链接
