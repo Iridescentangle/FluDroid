@@ -34,7 +34,7 @@ dependencies:
   # 工具包
   flustars: ^0.1.9
   # 轮播图
-  flutter_swiper: ^1.0.6
+  flutter_swiper: ^1.1.4
   # 拼音库
   lpinyin: ^1.0.6
   # dio网络请求库
