@@ -5,6 +5,7 @@ import 'tool/ToolPage.dart';
 import 'package:iridescentangle/pages/WanAndroidPage.dart';
 import 'package:iridescentangle/utils/HttpUtil.dart';
 import 'package:iridescentangle/utils/ToastUtil.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 class BottomNavigationWidget extends StatefulWidget {
   _BottomNavigationWidgetState createState() => _BottomNavigationWidgetState();
 }
@@ -40,6 +41,7 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
   }
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.instance =ScreenUtil(width: 750,height: 1344)..init(context);
     var appBar;
     if(current_index == 3){
       appBar = null;
