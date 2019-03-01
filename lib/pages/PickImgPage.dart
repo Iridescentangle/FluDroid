@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
-import 'package:image_picker/image_picker.dart';
+//import 'package:image_picker/image_picker.dart';
 
 void main() {
   runApp(PickImgPage());
@@ -18,17 +18,17 @@ class _PickImgPageState extends State<PickImgPage> {
   File _image;
 
   Future getImage() async {
-    var image = await ImagePicker.pickImage(source: ImageSource.camera);
-    setState(() {
-      _image = image;
-    });
+//    var image = await ImagePicker.pickImage(source: ImageSource.camera);
+//    setState(() {
+//      _image = image;
+//    });
   }
 
   Future getImageFromAlbum() async{
-    var image=await ImagePicker.pickImage(source: ImageSource.gallery);
-    setState(() {
-      _image=image;
-    });
+//    var image=await ImagePicker.pickImage(source: ImageSource.gallery);
+//    setState(() {
+//      _image=image;
+//    });
   }
 
   @override

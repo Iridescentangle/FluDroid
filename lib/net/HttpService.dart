@@ -10,5 +10,9 @@ class HttpService{
   static const String WANANDROID_HOT_KEY = 'http://www.wanandroid.com//hotkey/json';
   static const String WANANDROID_SEARCH = 'http://www.wanandroid.com/article/query/~/json';
   static const String DOUBAN_HOT_MOVIE = 'https://api.douban.com/v2/movie/in_theaters?apikey=0b2bdeda43b5688921839c8ecb20399b&city=~&start=0&count=100&client=&udid=';
-  static const String DOUBAN_SEARCH = 'https://api.douban.com/v2/movie/search?q=~';
 }
+const douban_base_url = 'https://api.douban.com/v2/movie/';
+const douban_paths = {
+  'search':douban_base_url+"search?q=",//电影搜索
+
+};

@@ -6,6 +6,7 @@ import 'package:iridescentangle/utils/ColorUtil.dart';
 import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:iridescentangle/tec/tec_web_page.dart';
+import '../widget/SearchEmptyView.dart';
 class SearchResultPage extends StatefulWidget {
   String name;
   SearchResultPage({Key key,this.name}):super(key:key);
@@ -130,22 +131,6 @@ class _SearchResultPageState extends State<SearchResultPage> {
 class SearchEmptyView extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
-    return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Container(
-              width: 130.0,
-              height: 100.0,
-              child: Image.asset('assets/images/no_data.png',),
-            ),
-            Padding(
-              padding: EdgeInsets.all(10.0),
-              child: Text('没有搜索到结果，换个词试试?',style:Theme.of(context).textTheme.subhead),
-            ),
-          ],
-        ),
-      );
+    return SearchEmptyView();
   }
 }
