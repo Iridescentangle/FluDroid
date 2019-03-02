@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flustars/src/screen_util.dart';
 import 'DoubanTop250Page.dart';
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';

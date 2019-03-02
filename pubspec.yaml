@@ -24,7 +24,7 @@ dependencies:
   # 工具集
   common_utils: ^1.0.9
   # 微信分享
-  fluwx : ^0.5.5
+  fluwx : ^0.6.0
   # 显示未读消息数的控件
   # badge : ^0.0.3
   # SharedPreference：

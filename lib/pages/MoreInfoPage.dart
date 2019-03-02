@@ -18,12 +18,6 @@ class MoreInfoPage extends StatelessWidget {
     );
   }
   Widget _body(BuildContext context){
-    // return  Center(
-    //       child: new InkWell(
-    //           child: new Text('Open Browser'),
-    //           onTap: () => launch(
-    //               'https://docs.flutter.io/flutter/services/UrlLauncher-class.html')),
-    //     );
     return ListView(
       children: <Widget>[
         Container(
