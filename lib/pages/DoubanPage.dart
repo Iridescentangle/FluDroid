@@ -44,7 +44,7 @@ class _DoubanPageState extends State<DoubanPage> {
         child: ListTile(
           onTap: onTap,
           leading: Icon(iconData),
-          title: Text(title,style: TextStyle(fontSize: 20.0,fontWeight: FontWeight.w300),),
+          title: Text(title,style: TextStyle(fontSize: 20.0,),),
         ),
       ),
     );

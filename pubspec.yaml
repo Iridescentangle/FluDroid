@@ -49,12 +49,9 @@ dependencies:
   jpush_flutter: ^0.0.11
   # 屏幕适配
   flutter_screenutil : ^0.5.1
-  # 搜索建议
-  flutter_search_panel: ^1.0.0
-  # flukit:
-  #   git:
-  #     url: git://github.com/flutterchina/flukit.git
-  #     path: package_src/
+  # redux状态管理
+  flutter_redux: ^0.5.2
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
