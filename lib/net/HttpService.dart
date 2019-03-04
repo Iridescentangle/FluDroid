@@ -13,6 +13,6 @@ class HttpService{
 }
 const douban_base_url = 'https://api.douban.com/v2/movie/';
 const douban_paths = {
-  'search':douban_base_url+"search?",//电影搜索
-
+  'search':douban_base_url+"search?q=",//电影搜索
+  
 };
