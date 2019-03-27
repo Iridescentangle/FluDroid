@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'SearchPage.dart';
 import 'package:flustars/src/screen_util.dart';
 import 'LoginPage.dart';
-import 'dart:convert';
 import 'package:iridescentangle/utils/UserUtil.dart';
 import 'package:iridescentangle/utils/ToastUtil.dart';
 import 'package:iridescentangle/utils/DialogUtil.dart';
@@ -13,7 +12,8 @@ import 'package:iridescentangle/page_routes/FadePageRoute.dart';
 import 'package:iridescentangle/utils/Constants.dart';
 import 'MoreInfoPage.dart';
 import 'MyFavoritePage.dart';
-import 'PickImgPage.dart';
+import 'package:redux/redux.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 class WanAndroidPage extends StatefulWidget {
   _WanAndroidPageState createState() => _WanAndroidPageState();
 }
@@ -46,29 +46,29 @@ class _WanAndroidPageState extends State<WanAndroidPage> {
   @override
   Widget build(BuildContext context) {
     width = ScreenUtil.getScreenW(context);
-    return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.blue,
-          elevation: 0.0,
-         title: Text("WanAndroid"),centerTitle: true,
-         actions: <Widget>[
-           IconButton(
-             icon: Icon(Icons.search),
-             onPressed: (){
-               if(_isLogin){
+    return  Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.blue,
+        elevation: 0.0,
+        title: Text("WanAndroid"),centerTitle: true,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: (){
+              if(_isLogin){
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context)=>SearchPage()
                   ),
                 );
-               }else{
-                 ToastUtil.showToast('您尚未登录!');
-               }
-             },
-           ),
+              }else{
+                ToastUtil.showToast('您尚未登录!');
+              }
+            },
+          ),
           ],
-         ),
-       body: _renderBody(context),
+        ),
+      body: _renderBody(context),
     );
   }
   Widget _renderBody(BuildContext context){

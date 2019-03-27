@@ -3,9 +3,9 @@ import 'news/news_page.dart';
 import 'tec/tec_page.dart';
 import 'tool/ToolPage.dart';
 import 'package:iridescentangle/pages/WanAndroidPage.dart';
-import 'package:iridescentangle/utils/HttpUtil.dart';
-import 'package:iridescentangle/utils/ToastUtil.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:redux/redux.dart';
 class BottomNavigationWidget extends StatefulWidget {
   _BottomNavigationWidgetState createState() => _BottomNavigationWidgetState();
 }
