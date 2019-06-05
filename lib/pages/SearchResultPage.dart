@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:iridescentangle/utils/HttpUtil.dart';
+import 'package:iridescentangle/utils/DioUtil.dart';
 import 'package:iridescentangle/net/HttpService.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:iridescentangle/utils/ColorUtil.dart';
@@ -40,7 +40,7 @@ class _SearchResultPageState extends State<SearchResultPage> {
   void _search() async {
     Map<String,String> map =Map();
     map['k'] =widget.name;
-    HttpUtil.post(url.replaceAll('~', page.toString()),(data){
+    DioUtil.post(url.replaceAll('~', page.toString()),(data){
       List datas = data['datas'];
       if(datas != null && datas.length > 0){
         setState(() {
@@ -55,7 +55,7 @@ class _SearchResultPageState extends State<SearchResultPage> {
         });
       };
     },params: map,
-    errorCallback:(e){
+    errorCallBack:(e){
       print(e);
     });
   }

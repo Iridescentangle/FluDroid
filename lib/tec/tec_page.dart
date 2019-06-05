@@ -3,12 +3,13 @@ import 'package:flutter/cupertino.dart';
 import 'dart:async';
 import 'dart:ui';
 import 'tec_web_page.dart';
-import 'package:iridescentangle/utils/HttpUtil.dart';
+import 'package:iridescentangle/utils/DioUtil.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 // import 'package:flukit/src/swiper.dart';
 import 'package:iridescentangle/net/HttpService.dart';
 import 'package:iridescentangle/page_routes/FadePageRoute.dart';
 import 'dart:convert';
+import 'package:dio/dio.dart';
 class TecPage extends StatefulWidget {
   _TecPageState createState() => _TecPageState();
 }
@@ -47,9 +48,12 @@ class _TecPageState extends State<TecPage> with SingleTickerProviderStateMixin{
       });
       page += 1;
       pageUrl = "http://www.wanandroid.com/article/list/${page}/json";
-      HttpUtil.get(pageUrl, (data){
+      Dio().get(pageUrl).then( (result){
+        print(result.toString());
+        print(result.runtimeType);
         Future.delayed(Duration(seconds: 1), () {
           setState(() {
+            var data = json.decode(result.toString());
             _body_list.addAll(data['datas']);
             isLoading = false;
           });
@@ -59,18 +63,21 @@ class _TecPageState extends State<TecPage> with SingleTickerProviderStateMixin{
     }
   }
   void loadData(int page) async{
-    HttpUtil.get(topUrl, (data){
+    Dio().get(topUrl).then((result){
+      var data = json.decode(result.toString());
       setState(() {
         _body_list.addAll(data['data']);
       });
     });
-    HttpUtil.get(pageUrl, (data){
+    Dio().get(pageUrl).then((result){
       setState(() {
-        _body_list.addAll(data['datas']);
+        var data = json.decode(result.toString());
+        _body_list.addAll(data['data']['datas']);
       });
     });
-    HttpUtil.get(HttpService.WANANDROID_BANNER, (data){
-      _swiper_data_list.addAll(data);
+    Dio().get(HttpService.WANANDROID_BANNER).then((result){
+      var data = json.decode(result.toString());
+      _swiper_data_list.addAll(data['data']);
     });
 
   }

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
-import 'package:http/http.dart' as http;
 import '../model/DoubanMovieDetail.dart';
 import 'package:flustars/src/screen_util.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import '../news/ArticleDetailPage.dart';
 import 'package:fluwx/src/models/wechat_share_models.dart';
 import 'package:fluwx/fluwx.dart' as fluwx;
+import 'package:dio/dio.dart';
 class MovieDetailPage extends StatefulWidget {
   String id;
   String title;
@@ -35,8 +35,9 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
   }
   void getMovieData() async{
     var url = "http://api.markapp.cn/v160/movies/${widget.id}/img_url/";
-    await http.get(url).then((http.Response response){
-        MovieTree tree = MovieTree.fromJson(json.decode(response.body));
+
+    await Dio().get(url).then((response){
+        MovieTree tree = MovieTree.fromJson(json.decode(response.toString()));
         if(tree.status == 1){
           MovieData data = tree.data;
           setState(() {

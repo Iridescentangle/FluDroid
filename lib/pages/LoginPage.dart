@@ -3,9 +3,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:dio/dio.dart';
 import 'package:iridescentangle/utils/ToastUtil.dart';
 import 'package:iridescentangle/utils/UserUtil.dart';
-import 'package:iridescentangle/utils/HttpUtil.dart';
+import 'package:iridescentangle/utils/DioUtil.dart';
 import 'package:iridescentangle/page_routes/FadePageRoute.dart';
 import 'RegisterPage.dart';
+import 'dart:convert';
 class LoginPage extends StatefulWidget {
   _LoginPageState createState() => _LoginPageState();
 }
@@ -157,15 +158,15 @@ class _LoginPageState extends State<LoginPage> {
     Map<String,String> map = Map();
     map['username'] = userName;
     map['password'] = passWord;
-    HttpUtil.post("user/login",(var data){
-      if(data != null){
-        // print(data);
+    DioUtil.post("user/login",(var response){
+      if(response != null){
+         print(response);
         //说明登录成功了返回了用户数据
         // UserUtil.saveInfo(data['data']['username']);
-        UserUtil.saveInfo(data['username']);
-        Navigator.pop(context,data);
+        UserUtil.saveInfo(response.data['data']['username']);
+        Navigator.pop(context,response.data);
       }
-    },params:map,errorCallback: (String errorMsg){
+    },params:map,errorCallBack: (String errorMsg){
       ToastUtil.showToast(errorMsg);
     }
     );

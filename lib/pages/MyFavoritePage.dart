@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:iridescentangle/utils/HttpUtil.dart';
+import 'package:iridescentangle/utils/DioUtil.dart';
 import 'package:iridescentangle/utils/Constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:iridescentangle/net/HttpService.dart';
@@ -30,7 +30,7 @@ class _MyFavoritePageState extends State<MyFavoritePage> {
   }
   void _getMore() async{
     page = page +1;
-    HttpUtil.get(HttpService.WANANDROID_FAVORITE.replaceFirst('~', '$page'), 
+    DioUtil.get(HttpService.WANANDROID_FAVORITE.replaceFirst('~', '$page'),
     (data){
       if(data != null){
         if(data[Constants.DATAS].length != 0){
@@ -41,12 +41,12 @@ class _MyFavoritePageState extends State<MyFavoritePage> {
         }
       }
     },
-    errorCallback: (msg){
+    errorCallBack: (msg){
       ToastUtil.showToast(msg);
     });
   }
   void getData() async{
-    HttpUtil.get(HttpService.WANANDROID_FAVORITE.replaceFirst('~', '$page'), 
+    DioUtil.get(HttpService.WANANDROID_FAVORITE.replaceFirst('~', '$page'),
     (data){
       if(data != null){
         if(data[Constants.DATAS].length == 0){
@@ -62,7 +62,7 @@ class _MyFavoritePageState extends State<MyFavoritePage> {
         }
       }
     },
-    errorCallback: (msg){
+    errorCallBack: (msg){
       print(msg);
     }
     );
@@ -206,7 +206,7 @@ class _MyFavoritePageState extends State<MyFavoritePage> {
     String url = HttpService.WANANDROID_UNCOLLECT.replaceFirst('~', '$id');
     Map<String,String> map = Map<String,String>();
     map['originId'] = '$originId';
-    HttpUtil.post(url, 
+    DioUtil.post(url,
     (data){
       setState(() {
                _favorite_list.removeAt(index);
@@ -214,7 +214,7 @@ class _MyFavoritePageState extends State<MyFavoritePage> {
      
     },
     params: map,
-    errorCallback: (msg){
+    errorCallBack: (msg){
       print(msg);
     }
     );

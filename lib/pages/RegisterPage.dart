@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iridescentangle/utils/ToastUtil.dart';
 import 'package:iridescentangle/net/HttpService.dart';
-import 'package:iridescentangle/utils/HttpUtil.dart';
+import 'package:iridescentangle/utils/DioUtil.dart';
 import 'package:iridescentangle/utils/UserUtil.dart';
 class RegisterPage extends StatefulWidget {
   String name;
@@ -86,12 +86,12 @@ class _RegisterPageState extends State<RegisterPage> {
     map['username'] = inputName;
     map['password'] = password;
     map['repassword'] = rePassword;
-    HttpUtil.post(HttpService.WANANDROID_REGISTER,(var data){
+    DioUtil.post(HttpService.WANANDROID_REGISTER,(var data){
       UserUtil.localLogOut();
       ToastUtil.showToast('正在为您自动登录中!');
       _autoLogin(data['username'],password);
     },params: map,
-    errorCallback: (msg){
+    errorCallBack: (msg){
       ToastUtil.showToast(msg);
     });
   }
@@ -99,11 +99,11 @@ class _RegisterPageState extends State<RegisterPage> {
     Map<String,String> map = Map();
     map['username'] = username;
     map['password'] = password;
-    HttpUtil.post(HttpService.WANANDROID_LOGIN,
+    DioUtil.post(HttpService.WANANDROID_LOGIN,
      (data){
       UserUtil.saveInfo(data['username']);
       Navigator.pop(context,1);
-    },params: map,errorCallback: 
+    },params: map,errorCallBack:
       (msg){
         ToastUtil.showToast(msg);
       }

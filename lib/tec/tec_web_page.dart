@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import 'package:iridescentangle/utils/HttpUtil.dart';
+import 'package:iridescentangle/utils/DioUtil.dart';
 import 'package:iridescentangle/net/HttpService.dart';
 import 'package:iridescentangle/utils/ToastUtil.dart';
 import 'package:iridescentangle/utils/UserUtil.dart';
@@ -71,7 +71,7 @@ class _TecWebDetailPageState extends State<TecWebDetailPage> {
   }
   void _collectOrUncollect(int id) async{
     if(!_collected){
-      HttpUtil.post(HttpService.WANANDROID_COLLECT.replaceAll('~', '${widget.id}'), 
+      DioUtil.post(HttpService.WANANDROID_COLLECT.replaceAll('~', '${widget.id}'), 
       (data){
         ToastUtil.showToast('收藏成功!');
         setState(() {
@@ -80,14 +80,14 @@ class _TecWebDetailPageState extends State<TecWebDetailPage> {
       });
     }else{
       String url = 'http://www.wanandroid.com/lg/uncollect_originId/~/json'.replaceFirst('~', '${widget.id}');
-      HttpUtil.post(url, 
+      DioUtil.post(url, 
         (data){
         ToastUtil.showToast('取消收藏成功!');
         setState(() {
                   _collected = false;
                 });
         },
-      errorCallback: (msg){
+      errorCallBack: (msg){
         ToastUtil.showToast(msg);
       }
       );

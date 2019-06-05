@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:iridescentangle/model/DouBanMovieTree.dart';
 import 'dart:convert';
+import '../utils/DioUtil.dart';
 import 'MovieDetailPage.dart';
+import 'package:dio/dio.dart';
 class DoubanTop250Page extends StatefulWidget {
   _DoubanTop250PageState createState() => _DoubanTop250PageState();
 }
@@ -32,11 +33,11 @@ class _DoubanTop250PageState extends State<DoubanTop250Page> {
   
   void getData(int page) async{
     var url = 'http://api.douban.com/v2/movie/top250?start=${page * 24}&count=${count}';
-    await http.get(url).then((http.Response response){
-      DouBanMovieTree tree = DouBanMovieTree.fromJson(json.decode(response.body));
-        setState(() {
-                  list.addAll(tree.subjects);
-                });
+    Dio().get(url).then( (response){
+      DouBanMovieTree tree = DouBanMovieTree.fromJson(json.decode(response.toString()));
+      setState(() {
+        list.addAll(tree.subjects);
+      });
     });
   }
   @override
@@ -157,14 +158,13 @@ class _DoubanTop250PageState extends State<DoubanTop250Page> {
     }
      page += 1;
      var url = "http://api.douban.com/v2/movie/top250?start=${page * 24}&count=${count}";
-      http.Response response = await http.get(url);
-      DouBanMovieTree result = DouBanMovieTree.fromJson(json.decode(response.body));
-      await Future.delayed(Duration(seconds: 1),(){
+      Dio().get(url).then((response){
+        DouBanMovieTree result = DouBanMovieTree.fromJson(json.decode(response.toString()));
           setState(() {
-                      list.addAll(result.subjects);
-                      isLoading = false;
-                    });
-        }
-      );
+            list.addAll(result.subjects);
+            isLoading = false;
+          });
+      });
+
   }
 }

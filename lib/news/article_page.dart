@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import '../utils/DioUtil.dart';
 import 'dart:convert';
+import 'package:dio/dio.dart';
 import 'package:iridescentangle/model/ArticleInfo.dart';
 import 'ArticleDetailPage.dart';
 class ArticlePage extends StatefulWidget {
@@ -21,8 +22,11 @@ class _ArticlePageState extends State<ArticlePage> {
     }
   void getData() async{
     var url  = "http://v.juhe.cn/toutiao/index?type=${widget.type}&key=$news_key";
-    await http.get(url).then((http.Response response){
-      Article_Tree tree = Article_Tree.fromJson(json.decode(response.body));
+    print(url);
+    await Dio().get(url).then((response){
+      print(response.runtimeType);
+      Article_Tree tree = Article_Tree.fromJson(json.decode(response.toString()));
+      print(tree);
       if(tree.error_code == 10012){
         setState(() {
                   errorCode = 10012;

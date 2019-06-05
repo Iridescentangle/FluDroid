@@ -5,7 +5,7 @@ import 'dart:ui';
 import 'package:iridescentangle/pages/DoubanPage.dart';
 import '../pages/WanAndroidPage.dart';
 import 'package:iridescentangle/page_routes/FadePageRoute.dart';
-import 'package:iridescentangle/pages/weather_page.dart';
+import 'package:iridescentangle/pages/WeatherPage.dart';
 import 'package:iridescentangle/pages/MoviePage.dart';
 import 'package:iridescentangle/pages/JPushTestPage.dart';
 class ToolPage extends StatelessWidget {

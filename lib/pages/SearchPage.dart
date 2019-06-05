@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:iridescentangle/utils/HttpUtil.dart';
+import 'package:iridescentangle/utils/DioUtil.dart';
 import 'package:iridescentangle/net/HttpService.dart';
 import 'SearchResultPage.dart';
 import 'package:iridescentangle/utils/ToastUtil.dart';
@@ -18,7 +18,7 @@ class _SearchPageState extends State<SearchPage> {
     getHotKeyWords();
   }
   void getHotKeyWords() async{
-    HttpUtil.get(HttpService.WANANDROID_HOT_KEY, (data){
+    DioUtil.get(HttpService.WANANDROID_HOT_KEY, (data){
       setState(() {
        _hotKeyList.addAll(data); 
       });

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'city_select_page.dart';
-import 'package:sky_engine/_http/http.dart' as http;
-import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:ui';

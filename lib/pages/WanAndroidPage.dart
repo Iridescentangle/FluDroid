@@ -157,7 +157,7 @@ class _WanAndroidPageState extends State<WanAndroidPage> {
       );
   }
   void _navigatorToLogin(BuildContext context) async{
-    final data = await  Navigator.of(context).push(
+    final result = await  Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context)=> LoginPage()
           ),
@@ -172,18 +172,18 @@ class _WanAndroidPageState extends State<WanAndroidPage> {
     //           favorite_list.addAll(List.from(json.decode(data['data']['collectIds'].toString())));
     //         });
     // }
-    if(data == 1){
+    if(result == 1){
       //说明是注册成功了自动登录的界面
       _isLogin = true; 
       initUserInfo();
       return;
     }
-     if(data != null){
+     if(result != null){
       setState(() {
               _isLogin = true;
-              username = data['username'];
-              if(data['icon'].length != 0){
-                avatarUrl = data['icon'];
+              username = result['username'];
+              if(result['icon']!= null && result['icon'].length != 0){
+                avatarUrl = result['icon'];
               }
             });
     }

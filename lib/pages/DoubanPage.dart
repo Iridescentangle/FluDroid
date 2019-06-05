@@ -22,7 +22,7 @@ class _DoubanPageState extends State<DoubanPage> {
           _buildItem(context,Icons.flag,'豆瓣热映',(){
             Navigator.push(context, 
               MaterialPageRoute(
-                // builder: (context) => 
+                 builder: (context) => DoubanHotPage
               ),
             );
           }),

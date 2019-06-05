@@ -20,7 +20,6 @@ dependencies:
   flutter_webview_plugin: ^0.3.0+2
   # webview 据说更好用一些
   webview_flutter : ^0.2.0
-  http: ^0.12.0
   # 工具集
   common_utils: ^1.0.9
   # 微信分享
